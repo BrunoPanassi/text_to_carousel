@@ -10,7 +10,7 @@
 
 <script setup>
 import { UltimateTextToImage} from "ultimate-text-to-image";
-import { ref, watch } from "vue";
+import { ref } from "vue";
 
 let text = ref("");
 
@@ -28,19 +28,12 @@ const options = {
     marginBottom: 40,
     align: "center",
     valign: "middle",
-    borderColor: 0xFF000099,
-    borderSize: 2,
     backgroundColor: "#000000",
     underlineSize: 2,
+    autoWrapLineHeight: 80
 };
 
-let textToImage = ref("");
-
-const imageUrl = computed(() => textToImage.value)
-
-watch(text, () => {
-    textToImage.value = new UltimateTextToImage(text.value, options).render().toDataUrl();
-})
+const imageUrl = computed(() => new UltimateTextToImage(text.value, options).render().toDataUrl())
 
 </script>
 
