@@ -14,5 +14,9 @@
     "nuxt": "^3.8.2",
     "vue": "^3.3.10",
     "vue-router": "^4.2.5"
+  },
+  "dependencies": {
+    "canvas": "^2.11.2",
+    "ultimate-text-to-image": "^1.0.1"
   }
 }
