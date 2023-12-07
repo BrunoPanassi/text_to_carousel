@@ -2,7 +2,11 @@
     <v-app>
         <v-container>
             <v-row v-for="(input, i) in inputs">
-                <v-text-field v-model="input.text" :key="i"></v-text-field>
+                <v-text-field v-model="input.text" :key="i">
+                    <template v-slot:append-inner>
+                        <v-btn variant="text" icon="mdi-close" @click="removeInput(i)" />
+                    </template>
+                </v-text-field>
             </v-row>
             <v-btn @click="addInput">Adicionar</v-btn>
             <v-carousel>
@@ -26,8 +30,10 @@ function addInput() {
     inputs.value.push({text: ""})
 }
 
+const doesHaveMoreThanOneInput = computed(() => inputs.value.length > 1)
+
 function removeInput(index: number) {
-    inputs.value.splice(index, 1)
+    if (doesHaveMoreThanOneInput) inputs.value.splice(index, 1)
 }
 
 let images = computed(() => inputs.value.map((i) => TextToImage.render(i.text)))
