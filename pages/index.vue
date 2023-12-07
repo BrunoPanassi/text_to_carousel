@@ -1,11 +1,13 @@
 <template>
-    <div>
-        <p>Text to Carousel</p>
-        <input type="text" v-model="text">
-        <div>
-            <img :src="imageUrl">
-        </div>
-    </div>
+    <v-app>
+        <v-container>
+            <v-text-field label="Primeira Imagem" v-model="text">
+            </v-text-field>
+            <div>
+                <v-img width="600" :src="imageUrl"></v-img>
+            </div>
+        </v-container>
+    </v-app>
 </template>
 
 <script setup>
