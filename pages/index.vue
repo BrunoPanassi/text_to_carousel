@@ -47,7 +47,6 @@ interface Text {
     options: Options
 }
 
-const addTitle = "Adicionar"
 const imageStyleTitle = "Estilo da Imagem"
 
 const styleOptionsItens = [
