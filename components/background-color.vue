@@ -2,7 +2,7 @@
     <v-dialog v-model="dialog" max-width="300px" max-height="500px">
         <v-card>
             <template v-slot:prepend>
-                <p>Opções de Estilo</p>
+                <p>{{ title }}</p>
             </template>
             <template v-slot:append>
                 <v-btn @click="onClose" icon="mdi-close" variant="text"></v-btn>
@@ -23,6 +23,8 @@ import { ref, watch, computed } from "vue";
 let dialog = ref(false);
 
 let color = ref("")
+
+const title = "Cor de Fundo"
 
 const props = defineProps({
     dialogClicked: { type: Boolean, required: true}
