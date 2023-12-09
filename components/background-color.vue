@@ -47,4 +47,8 @@ watch(dialogClicked, (currDialog) => {
     dialog.value = currDialog
 })
 
+watch(dialog, () => {
+    if(!dialog.value) emit("onClose")
+})
+
 </script>
