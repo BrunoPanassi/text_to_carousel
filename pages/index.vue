@@ -9,12 +9,12 @@
                 </v-text-field>
             </v-row>
             <v-row>
-                <v-btn @click="addInput">{{ addTitle }}</v-btn>
+                <v-btn @click="addInput" block color="#469D89">{{ addTitle }}</v-btn>
             </v-row>
-            <v-row class="mt-10">
+            <v-row class="mt-8 d-flex justify-center">
                 <v-menu>
                     <template v-slot:activator="{ props }">
-                        <v-btn v-bind="props">{{ imageStyleTitle }}</v-btn>
+                        <v-btn color="#892B64" variant="outlined" v-bind="props">{{ imageStyleTitle }}</v-btn>
                     </template>
                     <v-list>
                         <v-list-item v-for="(style, i) in styleOptionsItens" @click="openStyleOptions(actualImageOnCarrousel, style.prop)">
@@ -23,13 +23,13 @@
                     </v-list>
                 </v-menu>
             </v-row>
-            <v-carousel v-model="actualImageOnCarrousel">
+            <v-carousel show-arrows="hover" v-model="actualImageOnCarrousel">
                 <v-carousel-item v-for="(image, key) in images" :key="key" :src="image">
                 </v-carousel-item>
             </v-carousel>
         </v-container>
         <backgroundColor 
-            :dialogClicked="styleOptionsDialog" 
+            :dialogClicked="backgroundColorsDialog" 
             @on-close="onCloseStypeOptions"
             @apply-color="onApplyColor"></backgroundColor>
     </v-app>
@@ -86,12 +86,12 @@ function addInput() {
     actualImageOnCarrousel.value+=1;
 }
 
-let styleOptionsDialog = ref(false);
+let backgroundColorsDialog = ref(false);
 let textIndex = ref(0);
 
 function openStyleOptions(index: number, prop: string) {
     textIndex.value = index;
-    styleOptionsDialog.value = true;
+    backgroundColorsDialog.value = true;
 }
 
 function updateActualImageIndex(index: number) {
@@ -99,7 +99,7 @@ function updateActualImageIndex(index: number) {
 }
 
 function onCloseStypeOptions() {
-    styleOptionsDialog.value = false;
+    backgroundColorsDialog.value = false;
 }
 
 function onApplyColor(color: string) {

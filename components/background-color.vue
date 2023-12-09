@@ -11,7 +11,7 @@
                 <v-color-picker mode="hexa" v-model="color"></v-color-picker>
             </v-card-item>
             <v-card-actions>
-                <v-btn color="green-darken-3" block variant="flat" @click="applyColor" :disabled="!isColorSelected">Aplicar</v-btn>
+                <v-btn color="#469D89" block variant="flat" @click="applyColor" :disabled="!isColorSelected">Aplicar</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
