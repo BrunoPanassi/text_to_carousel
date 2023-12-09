@@ -8,10 +8,10 @@
                     </template>
                 </v-text-field>
             </v-row>
-            <v-row>
-                <v-btn @click="addInput" block color="#469D89">{{ addTitle }}</v-btn>
+            <v-row class="d-flex justify-center">
+                <v-btn @click="addInput" icon="mdi-plus" color="#469D89"></v-btn>
             </v-row>
-            <v-row class="mt-8 d-flex justify-center">
+            <v-row class="mt-10 d-flex justify-center">
                 <v-menu>
                     <template v-slot:activator="{ props }">
                         <v-btn color="#892B64" variant="outlined" v-bind="props">{{ imageStyleTitle }}</v-btn>
