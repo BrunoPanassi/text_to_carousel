@@ -14,6 +14,7 @@
 
 <script setup lang="ts">
 import dialogComponent from './dialog-component.vue';
+import { DialogProps } from "@/enums/dialog-prop"
 
 const title = "Fonte"
 
@@ -35,12 +36,15 @@ const { dialogClicked } = toRefs(props)
 const emit = defineEmits(["onClose", "onApply"])
 
 function onApply() {
-    emit("onApply", fontSelected.value)
-    emit("onClose")
+    emit("onApply", {
+        prop: DialogProps.FONT_FAMILY,
+        value: fontSelected.value
+    })
+    onClose()
 }
 
 function onClose() {
-    emit("onClose")
+    emit("onClose", DialogProps.FONT_FAMILY)
 }
 
 </script>

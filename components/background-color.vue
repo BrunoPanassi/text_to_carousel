@@ -14,6 +14,7 @@
 
 <script setup lang="ts">
 import dialogComponent from './dialog-component.vue';
+import { DialogProps } from "@/enums/dialog-prop"
 
 let color = ref("")
 
@@ -29,12 +30,15 @@ const { dialogClicked } = toRefs(props)
 const emit = defineEmits(["onClose", "applyColor"])
 
 function applyColor() {
-    emit("applyColor", color.value)
-    emit("onClose")
+    emit("applyColor", {
+        prop: DialogProps.BACKGROUND_COLOR,
+        value: color.value
+    })
+    onClose()
 }
 
 function onClose() {
-    emit("onClose")
+    emit("onClose", DialogProps.BACKGROUND_COLOR)
 }
 
 </script>

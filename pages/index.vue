@@ -28,25 +28,19 @@
                 </v-carousel-item>
             </v-carousel>
         </v-container>
-        <backgroundColor 
-            :dialogClicked="backgroundColorsDialog" 
-            @on-close="onCloseStypeOptions"
-            @apply-color="onApplyColor">
-        </backgroundColor>
-        <fontFamily
-            :dialog-clicked="fontFamilyDialog"
-            @on-close="onCloseFontFamily"
-            @on-apply="onApplyFont">
-        </fontFamily>
+        <allDialogs
+            :prop-selected="propSelected"
+            @on-apply="onApply"
+        >
+        </allDialogs>
     </v-app>
 </template>
 
 <script setup lang="ts">
 import TextToImage from "@/service/textToImage";
-import backgroundColor from "~/components/background-color.vue";
-import fontFamily from "~/components/font-family.vue";
 import { Options } from "@/types/style-options"
-import { ref } from "vue";
+import { DialogProps } from "@/enums/dialog-prop"
+import allDialogs from "~/components/all-dialogs.vue";
 
 type Text = {
     text: string,
@@ -55,39 +49,37 @@ type Text = {
 
 const imageStyleTitle = "Estilo da Imagem"
 
-let backgroundColorsDialog = ref(false);
-let fontFamilyDialog = ref(false);
-
 const styleOptionsItens = [
     {
         text: "Cor de Fundo",
-        prop: "backgroundColor", //TODO: Use enum instead
+        prop: DialogProps.BACKGROUND_COLOR,
     },
     {
         text: "Fonte",
-        prop: "fontFamily",
+        prop: DialogProps.FONT_FAMILY,
     },
     {
         text: "Tamanho da Fonte",
-        prop: "fontSize",
+        prop: DialogProps.FONT_SIZE,
     },
     {
         text: "Cor da Fonte",
-        prop: "fontColor",
+        prop: DialogProps.FONT_COLOR,
     },
     {
         text: "Alinhamento Horizontal",
-        prop: "align",
+        prop: DialogProps.ALIGN,
     },
     {
         text: "Alinhamento Vertical",
-        prop: "valign",
+        prop: DialogProps.VALIGN,
     }
 ]
 
 let inputs: Ref<Array<Text>> = ref([{text: "", options: TextToImage.getDefaultOptions()}]);
 let images = computed(() => inputs.value.map((i) => TextToImage.render(i.text, i.options)))
 let actualImageOnCarrousel = ref(0);
+let propSelected = ref("")
 
 function addInputOnEnter() {
     addInput();
@@ -98,24 +90,16 @@ function addInput() {
 }
 
 function openStyleOptions(prop: string) {
-    openDialogOnProp(prop)
-}
-
-function openDialogOnProp(prop: string) {
-    if (prop == "backgroundColor") backgroundColorsDialog.value = true;
-    if (prop == "fontFamily") fontFamilyDialog.value = true;
+    propSelected.value = prop;
 }
 
 function updateActualImageIndex(index: number) {
     actualImageOnCarrousel.value = index;
 }
 
-function onCloseStypeOptions() {
-    backgroundColorsDialog.value = false;
-}
-
-function onCloseFontFamily() {
-    fontFamilyDialog.value = false;
+function onApply(propAndValue: {prop: string, value: string | number}) {
+    if (propAndValue.prop == DialogProps.BACKGROUND_COLOR) onApplyColor(propAndValue.value.toString())
+    if (propAndValue.prop == DialogProps.FONT_FAMILY) onApplyFont(propAndValue.value.toString())
 }
 
 function onApplyFont(font: string) {
