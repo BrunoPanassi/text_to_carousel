@@ -48,9 +48,8 @@ import fontFamily from "~/components/font-family.vue";
 import { Options } from "@/types/style-options"
 import { ref } from "vue";
 
-interface Text {
+type Text = {
     text: string,
-    backgroundColor: string,
     options: Options
 }
 
@@ -86,12 +85,12 @@ const styleOptionsItens = [
     }
 ]
 
-let inputs: Ref<Array<Text>> = ref([{text: "", backgroundColor: "", options: TextToImage.getDefaultOptions()}]);
+let inputs: Ref<Array<Text>> = ref([{text: "", options: TextToImage.getDefaultOptions()}]);
 let images = computed(() => inputs.value.map((i) => TextToImage.render(i.text, i.options)))
 let actualImageOnCarrousel = ref(0);
 
 function addInput() {
-    inputs.value.push({text: "", backgroundColor: "", options: TextToImage.getDefaultOptions()})
+    inputs.value.push({text: "", options: TextToImage.getDefaultOptions()})
     actualImageOnCarrousel.value+=1;
 }
 
@@ -132,7 +131,6 @@ const doesHaveMoreThanOneInput = computed(() => inputs.value.length > 1)
 function removeInput(index: number) {
     if (doesHaveMoreThanOneInput) inputs.value.splice(index, 1)
 }
-
 
 </script>
 

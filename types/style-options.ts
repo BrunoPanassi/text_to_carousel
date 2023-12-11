@@ -1,4 +1,4 @@
-interface Options {
+type Options = {
     width: number;
     height: number;
     maxWidth: number;
