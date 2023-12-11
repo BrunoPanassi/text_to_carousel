@@ -23,8 +23,7 @@
             :prop-selected="propSelected"
             @on-apply="onApply"
             @on-clean-prop="onCleanPropSelected"
-        >
-        </allDialogs>
+        ></allDialogs>
     </v-app>
 </template>
 
@@ -45,12 +44,17 @@ let images = computed(() => inputs.value.map((i) => TextToImage.render(i.text, i
 let actualImageOnCarrousel = ref(0);
 let propSelected = ref("")
 
+let lastBackgroundColorSelected = ref("")
+let lastFontSelected = ref("")
+
 function addInputOnEnter() {
     addInput();
 }
 
 function addInput() {
-    inputs.value.push({text: "", options: TextToImage.getDefaultOptions()})
+    inputs.value.push({text: "", options: TextToImage.getDefaultOptions(
+        lastBackgroundColorSelected.value
+    )})
 }
 
 function openStyleOptions(prop: string) {
@@ -76,6 +80,7 @@ function onApplyFont(font: string) {
 
 function onApplyColor(color: string) {
     inputs.value[actualImageOnCarrousel.value].options.backgroundColor = color;
+    lastBackgroundColorSelected.value = color;
 }
 
 const doesHaveMoreThanOneInput = computed(() => inputs.value.length > 1)
