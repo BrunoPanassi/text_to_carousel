@@ -17,7 +17,7 @@
                         <v-btn color="#892B64" variant="outlined" v-bind="props">{{ imageStyleTitle }}</v-btn>
                     </template>
                     <v-list>
-                        <v-list-item v-for="(style, i) in styleOptionsItens" @click="openStyleOptions(actualImageOnCarrousel, style.prop)">
+                        <v-list-item v-for="(style, i) in styleOptionsItens" @click="openStyleOptions(style.prop)">
                             <v-list-item-title>{{ style.text }}</v-list-item-title>
                         </v-list-item>
                     </v-list>
@@ -91,13 +91,9 @@ let actualImageOnCarrousel = ref(0);
 
 function addInput() {
     inputs.value.push({text: "", options: TextToImage.getDefaultOptions()})
-    actualImageOnCarrousel.value+=1;
 }
 
-let textIndex = ref(0);
-
-function openStyleOptions(index: number, prop: string) {
-    textIndex.value = index;
+function openStyleOptions(prop: string) {
     openDialogOnProp(prop)
 }
 
@@ -119,11 +115,11 @@ function onCloseFontFamily() {
 }
 
 function onApplyFont(font: string) {
-    inputs.value[textIndex.value].options.fontFamily = font
+    inputs.value[actualImageOnCarrousel.value].options.fontFamily = font
 }
 
 function onApplyColor(color: string) {
-    inputs.value[textIndex.value].options.backgroundColor = color;
+    inputs.value[actualImageOnCarrousel.value].options.backgroundColor = color;
 }
 
 const doesHaveMoreThanOneInput = computed(() => inputs.value.length > 1)
