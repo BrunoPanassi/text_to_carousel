@@ -2,7 +2,7 @@
     <v-app>
         <v-container>
             <v-row v-for="(input, i) in inputs">
-                <v-text-field v-model="input.text" :key="i" @update:focused="updateActualImageIndex(i)">
+                <v-text-field autofocus v-model="input.text" :key="i" @update:focused="updateActualImageIndex(i)" @keydown.enter="addInputOnEnter">
                     <template v-slot:append-inner>
                         <v-btn variant="text" icon="mdi-close" @click="removeInput(i)" />
                     </template>
@@ -88,6 +88,10 @@ const styleOptionsItens = [
 let inputs: Ref<Array<Text>> = ref([{text: "", options: TextToImage.getDefaultOptions()}]);
 let images = computed(() => inputs.value.map((i) => TextToImage.render(i.text, i.options)))
 let actualImageOnCarrousel = ref(0);
+
+function addInputOnEnter() {
+    addInput();
+}
 
 function addInput() {
     inputs.value.push({text: "", options: TextToImage.getDefaultOptions()})
