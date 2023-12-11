@@ -1,26 +1,19 @@
 <template>
-    <v-dialog v-model="dialog" max-width="300px" max-height="500px">
-        <v-card>
-            <template v-slot:prepend>
-                <p>{{ title }}</p>
-            </template>
-            <template v-slot:append>
-                <v-btn @click="onClose" icon="mdi-close" variant="text"></v-btn>
-            </template>
-            <v-card-item>
-                <v-color-picker mode="hexa" v-model="color"></v-color-picker>
-            </v-card-item>
-            <v-card-actions>
-                <v-btn color="#469D89" block variant="flat" @click="applyColor" :disabled="!isColorSelected">Aplicar</v-btn>
-            </v-card-actions>
-        </v-card>
-    </v-dialog>
+    <dialogComponent :dialogClicked="dialogClicked" @on-close="onClose">
+        <template v-slot:title>
+            <p>{{ title }}</p>
+        </template>
+        <template v-slot:item>
+            <v-color-picker mode="hexa" v-model="color"></v-color-picker>
+        </template>
+        <template v-slot:actions>
+            <v-btn color="#469D89" block variant="flat" @click="applyColor" :disabled="!isColorSelected">Aplicar</v-btn>
+        </template>
+    </dialogComponent>
 </template>
 
 <script setup lang="ts">
-import { ref, watch, computed } from "vue";
-
-let dialog = ref(false);
+import dialogComponent from './dialog-component.vue';
 
 let color = ref("")
 
@@ -34,21 +27,14 @@ const isColorSelected = computed(() => !!color.value)
 
 const { dialogClicked } = toRefs(props)
 const emit = defineEmits(["onClose", "applyColor"])
-function onClose() {
-    emit("onClose")
-}
 
 function applyColor() {
     emit("applyColor", color.value)
     emit("onClose")
 }
 
-watch(dialogClicked, (currDialog) => {
-    dialog.value = currDialog
-})
-
-watch(dialog, () => {
-    if(!dialog.value) emit("onClose")
-})
+function onClose() {
+    emit("onClose")
+}
 
 </script>
