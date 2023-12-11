@@ -21,7 +21,7 @@ import { DialogProps } from "@/enums/dialog-prop"
 let backgroundColorsDialog = ref(false);
 let fontFamilyDialog = ref(false);
 
-const emit = defineEmits(["onApply"])
+const emit = defineEmits(["onApply", "onCleanProp"])
 
 function updateBackgroundColorDialog(value: boolean) {
     backgroundColorsDialog.value = value
@@ -45,10 +45,14 @@ function onOpenProp(prop: string) {
 function onCloseProp(prop: string) {
     if (prop == DialogProps.BACKGROUND_COLOR) updateBackgroundColorDialog(false);
     if (prop == DialogProps.FONT_FAMILY) updateFontFamily(false);
+    onCleanPropSelected()
+}
+
+function onCleanPropSelected() {
+    emit("onCleanProp")
 }
 
 function onApply(propAndValue: {prop: string, value: string | number}) {
-    console.log(propAndValue)
     emit("onApply", propAndValue)
 }
 

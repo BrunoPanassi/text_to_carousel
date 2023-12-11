@@ -11,12 +11,9 @@
             <v-row class="d-flex justify-center">
                 <v-btn @click="addInput" icon="mdi-plus" color="#469D89"></v-btn>
             </v-row>
-            <menuListItem
-                :title="imageStyleTitle"
-                :itens="styleOptionsItens"
+            <styleOptions
                 @on-click="openStyleOptions"
-            >
-            </menuListItem>
+            ></styleOptions>
             <v-carousel show-arrows="hover" v-model="actualImageOnCarrousel">
                 <v-carousel-item v-for="(image, key) in images" :key="key" :src="image">
                 </v-carousel-item>
@@ -25,6 +22,7 @@
         <allDialogs
             :prop-selected="propSelected"
             @on-apply="onApply"
+            @on-clean-prop="onCleanPropSelected"
         >
         </allDialogs>
     </v-app>
@@ -35,41 +33,12 @@ import TextToImage from "@/service/textToImage";
 import { Options } from "@/types/style-options"
 import { DialogProps } from "@/enums/dialog-prop"
 import allDialogs from "~/components/all-dialogs.vue";
-import menuListItem from "~/components/menu-list-item.vue";
+import styleOptions from "~/components/style-options.vue";
 
 type Text = {
     text: string,
     options: Options
 }
-
-const imageStyleTitle = "Estilo da Imagem"
-
-const styleOptionsItens = [
-    {
-        text: "Cor de Fundo",
-        prop: DialogProps.BACKGROUND_COLOR,
-    },
-    {
-        text: "Fonte",
-        prop: DialogProps.FONT_FAMILY,
-    },
-    {
-        text: "Tamanho da Fonte",
-        prop: DialogProps.FONT_SIZE,
-    },
-    {
-        text: "Cor da Fonte",
-        prop: DialogProps.FONT_COLOR,
-    },
-    {
-        text: "Alinhamento Horizontal",
-        prop: DialogProps.ALIGN,
-    },
-    {
-        text: "Alinhamento Vertical",
-        prop: DialogProps.VALIGN,
-    }
-]
 
 let inputs: Ref<Array<Text>> = ref([{text: "", options: TextToImage.getDefaultOptions()}]);
 let images = computed(() => inputs.value.map((i) => TextToImage.render(i.text, i.options)))
@@ -86,6 +55,10 @@ function addInput() {
 
 function openStyleOptions(prop: string) {
     propSelected.value = prop;
+}
+
+function onCleanPropSelected() {
+    propSelected.value = ""
 }
 
 function updateActualImageIndex(index: number) {
