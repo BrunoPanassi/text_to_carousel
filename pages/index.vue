@@ -11,18 +11,12 @@
             <v-row class="d-flex justify-center">
                 <v-btn @click="addInput" icon="mdi-plus" color="#469D89"></v-btn>
             </v-row>
-            <v-row class="mt-10 mb-4 d-flex justify-center">
-                <v-menu>
-                    <template v-slot:activator="{ props }">
-                        <v-btn color="#892B64" variant="outlined" v-bind="props">{{ imageStyleTitle }}</v-btn>
-                    </template>
-                    <v-list>
-                        <v-list-item v-for="(style, i) in styleOptionsItens" @click="openStyleOptions(style.prop)">
-                            <v-list-item-title>{{ style.text }}</v-list-item-title>
-                        </v-list-item>
-                    </v-list>
-                </v-menu>
-            </v-row>
+            <menuListItem
+                :title="imageStyleTitle"
+                :itens="styleOptionsItens"
+                @on-click="openStyleOptions"
+            >
+            </menuListItem>
             <v-carousel show-arrows="hover" v-model="actualImageOnCarrousel">
                 <v-carousel-item v-for="(image, key) in images" :key="key" :src="image">
                 </v-carousel-item>
@@ -41,6 +35,7 @@ import TextToImage from "@/service/textToImage";
 import { Options } from "@/types/style-options"
 import { DialogProps } from "@/enums/dialog-prop"
 import allDialogs from "~/components/all-dialogs.vue";
+import menuListItem from "~/components/menu-list-item.vue";
 
 type Text = {
     text: string,
