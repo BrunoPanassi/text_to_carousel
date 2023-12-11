@@ -11,7 +11,7 @@
             <v-row class="d-flex justify-center">
                 <v-btn @click="addInput" icon="mdi-plus" color="#469D89"></v-btn>
             </v-row>
-            <v-row class="mt-10 d-flex justify-center">
+            <v-row class="mt-10 mb-4 d-flex justify-center">
                 <v-menu>
                     <template v-slot:activator="{ props }">
                         <v-btn color="#892B64" variant="outlined" v-bind="props">{{ imageStyleTitle }}</v-btn>
@@ -31,13 +31,20 @@
         <backgroundColor 
             :dialogClicked="backgroundColorsDialog" 
             @on-close="onCloseStypeOptions"
-            @apply-color="onApplyColor"></backgroundColor>
+            @apply-color="onApplyColor">
+        </backgroundColor>
+        <fontFamily
+            :dialog-clicked="fontFamilyDialog"
+            @on-close="onCloseFontFamily"
+            @on-apply="onApplyFont">
+        </fontFamily>
     </v-app>
 </template>
 
 <script setup lang="ts">
 import TextToImage from "@/service/textToImage";
 import backgroundColor from "~/components/background-color.vue";
+import fontFamily from "~/components/font-family.vue";
 import { Options } from "@/types/style-options"
 import { ref } from "vue";
 
@@ -49,30 +56,33 @@ interface Text {
 
 const imageStyleTitle = "Estilo da Imagem"
 
+let backgroundColorsDialog = ref(false);
+let fontFamilyDialog = ref(false);
+
 const styleOptionsItens = [
     {
         text: "Cor de Fundo",
-        prop: "backgroundColor"
+        prop: "backgroundColor",
     },
     {
         text: "Fonte",
-        prop: "fontFamily"
+        prop: "fontFamily",
     },
     {
         text: "Tamanho da Fonte",
-        prop: "fontSize"
+        prop: "fontSize",
     },
     {
         text: "Cor da Fonte",
-        prop: "fontColor"
+        prop: "fontColor",
     },
     {
         text: "Alinhamento Horizontal",
-        prop: "align"
+        prop: "align",
     },
     {
         text: "Alinhamento Vertical",
-        prop: "valign"
+        prop: "valign",
     }
 ]
 
@@ -85,12 +95,16 @@ function addInput() {
     actualImageOnCarrousel.value+=1;
 }
 
-let backgroundColorsDialog = ref(false);
 let textIndex = ref(0);
 
 function openStyleOptions(index: number, prop: string) {
     textIndex.value = index;
-    backgroundColorsDialog.value = true;
+    openDialogOnProp(prop)
+}
+
+function openDialogOnProp(prop: string) {
+    if (prop == "backgroundColor") backgroundColorsDialog.value = true;
+    if (prop == "fontFamily") fontFamilyDialog.value = true;
 }
 
 function updateActualImageIndex(index: number) {
@@ -99,6 +113,14 @@ function updateActualImageIndex(index: number) {
 
 function onCloseStypeOptions() {
     backgroundColorsDialog.value = false;
+}
+
+function onCloseFontFamily() {
+    fontFamilyDialog.value = false;
+}
+
+function onApplyFont(font: string) {
+    inputs.value[textIndex.value].options.fontFamily = font
 }
 
 function onApplyColor(color: string) {
