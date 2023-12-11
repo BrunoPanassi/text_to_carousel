@@ -61,7 +61,7 @@ let fontFamilyDialog = ref(false);
 const styleOptionsItens = [
     {
         text: "Cor de Fundo",
-        prop: "backgroundColor",
+        prop: "backgroundColor", //TODO: Use enum instead
     },
     {
         text: "Fonte",
@@ -133,7 +133,3 @@ function removeInput(index: number) {
 }
 
 </script>
-
-<style lang="scss" scoped>
-
-</style>

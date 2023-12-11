@@ -42,7 +42,3 @@ watch(dialog, () => {
 })
 
 </script>
-
-<style scoped>
-
-</style>

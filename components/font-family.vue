@@ -44,7 +44,3 @@ function onClose() {
 }
 
 </script>
-
-<style scoped>
-
-</style>
