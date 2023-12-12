@@ -1,16 +1,18 @@
 <template>
     <v-app>
         <v-container>
-            <v-row v-for="(input, i) in inputs">
-                <v-text-field autofocus v-model="input.text" :key="i" @update:focused="updateActualImageIndex(i)" @keydown.enter="addInputOnEnter">
-                    <template v-slot:append-inner>
-                        <v-btn variant="text" icon="mdi-close" @click="removeInput(i)" />
-                    </template>
-                </v-text-field>
-            </v-row>
-            <v-row class="d-flex justify-center">
-                <v-btn @click="addInput" icon="mdi-plus" color="#469D89"></v-btn>
-            </v-row>
+            <v-card height="150" class="pa-5 overflow-auto">
+                <v-row v-for="(input, i) in inputs">
+                    <v-text-field autofocus v-model="input.text" :key="i" @update:focused="updateActualImageIndex(i)" @keydown.enter="addInputOnEnter">
+                        <template v-slot:append-inner>
+                            <v-btn variant="text" icon="mdi-close" @click="removeInput(i)" />
+                        </template>
+                    </v-text-field>
+                </v-row>
+                <v-row class="d-flex justify-center">
+                    <v-btn @click="addInput" icon="mdi-plus" color="#469D89"></v-btn>
+                </v-row>
+            </v-card>
             <styleOptions
                 @on-click="openStyleOptions"
             ></styleOptions>
