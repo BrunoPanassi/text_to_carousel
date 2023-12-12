@@ -39,13 +39,17 @@ type Text = {
     options: Options
 }
 
-let inputs: Ref<Array<Text>> = ref([{text: "", options: TextToImage.getDefaultOptions()}]);
+let lastBackgroundColorSelected = ref("")
+let lastFontSelected = ref("")
+
+let lastBackgroundColor = computed(() => lastBackgroundColorSelected.value == "" ? "#000000" : lastBackgroundColorSelected.value)
+
+let inputs: Ref<Array<Text>> = ref([{text: "", options: TextToImage.getDefaultOptions(lastBackgroundColor.value)}]);
 let images = computed(() => inputs.value.map((i) => TextToImage.render(i.text, i.options)))
 let actualImageOnCarrousel = ref(0);
 let propSelected = ref("")
 
-let lastBackgroundColorSelected = ref("")
-let lastFontSelected = ref("")
+
 
 function addInputOnEnter() {
     addInput();
@@ -53,7 +57,7 @@ function addInputOnEnter() {
 
 function addInput() {
     inputs.value.push({text: "", options: TextToImage.getDefaultOptions(
-        lastBackgroundColorSelected.value
+        lastBackgroundColor.value
     )})
 }
 

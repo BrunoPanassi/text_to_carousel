@@ -3,7 +3,7 @@ import { Options } from "@/types/style-options"
 
 class TextToImage {
 
-    getDefaultOptions(backgroundColor?: string) {
+    getDefaultOptions(backgroundColor: string) {
         return {
             width: 1000,
             height: 1000,
@@ -18,7 +18,7 @@ class TextToImage {
             marginBottom: 40,
             align: "center",
             valign: "middle",
-            backgroundColor: backgroundColor ?? "#000000",
+            backgroundColor: backgroundColor,
             autoWrapLineHeight: 80
         }
     }
