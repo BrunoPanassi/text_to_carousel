@@ -7,7 +7,7 @@
             <v-select :items="fonts" v-model="fontSelected"></v-select>
         </template>
         <template v-slot:actions>
-            <v-btn color="#469D89" block variant="flat" @click="onApply" :disabled="!isFontSelected">Aplicar</v-btn>
+            <v-btn color="#1780A1" block variant="flat" @click="onApply" :disabled="!isFontSelected">Aplicar</v-btn>
         </template>
     </dialogComponent>
 </template>

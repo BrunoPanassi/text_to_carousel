@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="dialog" max-width="300px" max-height="500px">
+    <v-dialog v-model="dialog" max-width="300px" max-height="600px">
         <v-card>
             <template v-slot:prepend>
                <slot name="title"></slot>
@@ -10,9 +10,12 @@
             <v-card-item>
                 <slot name="item"></slot>
             </v-card-item>
-            <v-card-actions>
+            <v-card-actions v-if="useActions">
                 <slot name="actions"></slot>
             </v-card-actions>
+            <div v-else>
+                <slot name="actions-custom"></slot>
+            </div>
         </v-card>
     </v-dialog>
 </template>
@@ -22,9 +25,10 @@
 let dialog = ref(false);
 
 const props = defineProps({
-    dialogClicked: { type: Boolean, required: true}
+    dialogClicked: { type: Boolean, required: true},
+    useActions: { type: Boolean, required: false, default: true}
 })
-const { dialogClicked } = toRefs(props)
+const { dialogClicked, useActions } = toRefs(props)
 
 const emit = defineEmits(["onClose"])
 

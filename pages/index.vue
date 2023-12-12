@@ -10,7 +10,7 @@
                     </v-text-field>
                 </v-row>
                 <v-row class="d-flex justify-center">
-                    <v-btn @click="addInput" icon="mdi-plus" color="#469D89"></v-btn>
+                    <v-btn @click="addInput" icon="mdi-plus" color="#1780A1"></v-btn>
                 </v-row>
             </v-card>
             <styleOptions
