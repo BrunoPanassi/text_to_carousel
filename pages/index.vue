@@ -3,7 +3,7 @@
         <v-container>
             <v-card height="150" class="pa-5 overflow-auto">
                 <v-row v-for="(input, i) in inputs">
-                    <v-text-field autofocus v-model="input.text" :key="i" @update:focused="updateActualImageIndex(i)" @keydown.enter="addInputOnEnter">
+                    <v-text-field autofocus v-model="input.text" :id="i.toString()" :key="i" @update:focused="updateActualImageIndex(i)" @keydown.enter="addInputOnEnter()">
                         <template v-slot:append-inner>
                             <v-btn variant="text" icon="mdi-close" @click="removeInput(i)" />
                         </template>
@@ -61,6 +61,12 @@ function addInput() {
     inputs.value.push({text: "", options: TextToImage.getDefaultOptions(
         lastBackgroundColor.value
     )})
+    scrollToLastTextField()
+}
+
+function scrollToLastTextField() {
+    const elementId = document.getElementById(actualImageOnCarrousel.value.toString())
+    if (elementId) elementId.scrollIntoView()
 }
 
 function openStyleOptions(prop: string) {
