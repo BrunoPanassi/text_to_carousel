@@ -9,7 +9,8 @@
         <fontFamily
             :dialog-clicked="fontFamilyDialog"
             @on-close="onCloseProp"
-            @on-apply="onApply">
+            @on-apply="onApply"
+            @apply-for-all="onApplyForAll">
         </fontFamily>
     </div>
 </template>

@@ -1,13 +1,16 @@
 <template>
-    <dialogComponent :dialogClicked="dialogClicked" @on-close="onClose">
+    <dialogComponent 
+        :dialogClicked="dialogClicked" 
+        @on-close="onClose" 
+        :use-actions="false"
+        :disable-function="isFontSelected"
+        @on-apply="onApply"
+        @apply-for-all="applyForAll">
         <template v-slot:title>
             {{ title }}
         </template>
         <template v-slot:item>
             <v-select :items="fonts" v-model="fontSelected"></v-select>
-        </template>
-        <template v-slot:actions>
-            <v-btn color="#1780A1" block variant="flat" @click="onApply" :disabled="!isFontSelected">Aplicar</v-btn>
         </template>
     </dialogComponent>
 </template>
@@ -33,10 +36,18 @@ const props = defineProps({
 
 const { dialogClicked } = toRefs(props)
 
-const emit = defineEmits(["onClose", "onApply"])
+const emit = defineEmits(["onClose", "onApply", "applyForAll"])
 
 function onApply() {
     emit("onApply", {
+        prop: DialogProps.FONT_FAMILY,
+        value: fontSelected.value
+    })
+    onClose()
+}
+
+function applyForAll() {
+    emit("applyForAll", {
         prop: DialogProps.FONT_FAMILY,
         value: fontSelected.value
     })

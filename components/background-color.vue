@@ -1,16 +1,16 @@
 <template>
-    <dialogComponent :dialogClicked="dialogClicked" @on-close="onClose" :use-actions="false">
+    <dialogComponent 
+        :dialogClicked="dialogClicked" 
+        @on-close="onClose" 
+        :use-actions="false"
+        :disable-function="isColorSelected"
+        @on-apply="applyColor"
+        @apply-for-all="applyForAll">
         <template v-slot:title>
             <p>{{ title }}</p>
         </template>
         <template v-slot:item>
             <v-color-picker mode="hexa" v-model="color"></v-color-picker>
-        </template>
-        <template v-slot:actions-custom>
-            <div class="d-flex flex-column">
-                <v-btn color="#1780A1" class="ma-2" variant="outlined" @click="applyForAll" :disabled="!isColorSelected">{{ applyForAllText }}</v-btn>
-                <v-btn color="#1780A1" class="ma-2" variant="flat" @click="applyColor" :disabled="!isColorSelected">{{ apply }}</v-btn>
-            </div>
         </template>
     </dialogComponent>
 </template>
@@ -22,8 +22,6 @@ import { DialogProps } from "@/enums/dialog-prop"
 let color = ref("")
 
 const title = "Cor de Fundo"
-const apply = "Aplicar"
-const applyForAllText = "Aplicar para todos"
 
 const props = defineProps({
     dialogClicked: { type: Boolean, required: true}

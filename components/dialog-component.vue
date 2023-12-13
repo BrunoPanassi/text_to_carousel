@@ -14,7 +14,10 @@
                 <slot name="actions"></slot>
             </v-card-actions>
             <div v-else>
-                <slot name="actions-custom"></slot>
+                <div class="d-flex flex-column">
+                    <v-btn color="#1780A1" class="ma-2" variant="outlined" @click="applyForAll" :disabled="!disableFunction">{{ applyForAllText }}</v-btn>
+                    <v-btn color="#1780A1" class="ma-2" variant="flat" @click="onApply" :disabled="!disableFunction">{{ apply }}</v-btn>
+                </div>
             </div>
         </v-card>
     </v-dialog>
@@ -24,13 +27,25 @@
 
 let dialog = ref(false);
 
+const apply = "Aplicar"
+const applyForAllText = "Aplicar para todos"
+
 const props = defineProps({
     dialogClicked: { type: Boolean, required: true},
-    useActions: { type: Boolean, required: false, default: true}
+    useActions: { type: Boolean, required: false, default: true},
+    disableFunction: { type: Boolean, required: false, default: false}
 })
-const { dialogClicked, useActions } = toRefs(props)
+const { dialogClicked, useActions, disableFunction } = toRefs(props)
 
-const emit = defineEmits(["onClose"])
+const emit = defineEmits(["onClose", "onApply", "applyForAll"])
+
+function onApply() {
+    emit("onApply")
+}
+
+function applyForAll() {
+    emit("applyForAll")
+}
 
 function onClose() {
     emit("onClose")
