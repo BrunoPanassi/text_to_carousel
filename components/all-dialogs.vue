@@ -3,7 +3,8 @@
         <backgroundColor 
             :dialogClicked="backgroundColorsDialog" 
             @on-close="onCloseProp"
-            @apply-color="onApply">
+            @apply-color="onApply"
+            @apply-for-all="onApplyForAll">
         </backgroundColor>
         <fontFamily
             :dialog-clicked="fontFamilyDialog"
@@ -21,7 +22,7 @@ import { DialogProps } from "@/enums/dialog-prop"
 let backgroundColorsDialog = ref(false);
 let fontFamilyDialog = ref(false);
 
-const emit = defineEmits(["onApply", "onCleanProp"])
+const emit = defineEmits(["onApply", "onCleanProp", "onApplyForAll"])
 
 function updateBackgroundColorDialog(value: boolean) {
     backgroundColorsDialog.value = value
@@ -54,6 +55,10 @@ function onCleanPropSelected() {
 
 function onApply(propAndValue: {prop: string, value: string | number}) {
     emit("onApply", propAndValue)
+}
+
+function onApplyForAll(propAndValue: {prop: string, value: string | number}) {
+    emit("onApplyForAll", propAndValue)
 }
 
 watch(propSelected, () => {

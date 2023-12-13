@@ -3,13 +3,13 @@ import { Options } from "@/types/style-options"
 
 class TextToImage {
 
-    getDefaultOptions(backgroundColor: string) {
+    getDefaultOptions(backgroundColor: string, fontFamily: string) {
         return {
             width: 1000,
             height: 1000,
             maxWidth: 1000,
             maxHeight: 1000,
-            fontFamily: "Arial",
+            fontFamily: fontFamily,
             fontColor: "#FFFFFF",
             fontSize: 72,
             minFontSize: 10,
