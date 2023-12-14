@@ -3,7 +3,7 @@
         <v-container>
             <v-card height="150" class="pa-5 overflow-auto">
                 <v-row v-for="(input, i) in inputs">
-                    <v-text-field autofocus v-model="input.text" :id="i.toString()" :key="i" @update:focused="updateActualImageIndex(i)" @keydown.enter="addInputOnEnter()">
+                    <v-text-field :placeholder="textFieldPlaceholder" autofocus v-model="input.text" :id="i.toString()" :key="i" @update:focused="updateActualImageIndex(i)" @keydown.enter="addInputOnEnter()">
                         <template v-slot:append-inner>
                             <v-btn variant="text" icon="mdi-close" @click="removeInput(i)" />
                         </template>
@@ -42,6 +42,8 @@ type Text = {
     text: string,
     options: Options
 }
+
+const textFieldPlaceholder = "Digite o seu texto aqui"
 
 let lastBackgroundColorSelected = ref("")
 let lastBackgroundColor = computed(() => lastBackgroundColorSelected.value == "" ? Colors.BLACK_NIGHT : lastBackgroundColorSelected.value)
@@ -158,8 +160,15 @@ function applyFontSizeAll(size: number) {
 
 const doesHaveMoreThanOneInput = computed(() => inputs.value.length > 1)
 
+function goToLastIndex(index: number) {
+    actualImageOnCarrousel.value = (index - 1)
+}
+
 function removeInput(index: number) {
-    if (doesHaveMoreThanOneInput) inputs.value.splice(index, 1)
+    if (doesHaveMoreThanOneInput.value) {
+        inputs.value.splice(index, 1)
+        goToLastIndex(index)
+    }
 }
 
 </script>
