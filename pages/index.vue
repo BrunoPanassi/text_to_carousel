@@ -48,12 +48,16 @@ let lastBackgroundColor = computed(() => lastBackgroundColorSelected.value == ""
 let lastFontSelected = ref("")
 let lastFont = computed(() => lastFontSelected.value == "" ? "Arial" : lastFontSelected.value)
 
+let lastFontSizeSelected = ref(0);
+let lastFontSize = computed(() => lastFontSizeSelected.value == 0 ? 72 : lastFontSizeSelected.value)
+
 function defaultTextValues() {
     return {
         text: "", 
         options: TextToImage.getDefaultOptions(
             lastBackgroundColor.value,
-            lastFont.value
+            lastFont.value,
+            lastFontSize.value
         )
     }
 }
@@ -69,6 +73,10 @@ function updateLastBackgroundColor(color: string) {
 
 function updateLastFont(font: string) {
     lastFontSelected.value = font;
+}
+
+function updateLastFontSize(size: number) {
+    lastFontSizeSelected.value = size;
 }
 
 function addInputOnEnter() {
@@ -105,6 +113,7 @@ function onApplyForAll(propAndValue: {prop: string, value: string | number}) {
 function onApply(propAndValue: {prop: string, value: string | number}, applyForAll = false) {
     if (propAndValue.prop == DialogProps.BACKGROUND_COLOR) onApplyColor(propAndValue.value.toString(), applyForAll)
     if (propAndValue.prop == DialogProps.FONT_FAMILY) onApplyFont(propAndValue.value.toString(), applyForAll)
+    if (propAndValue.prop == DialogProps.FONT_SIZE) onApplyFontSize(Number(propAndValue.value), applyForAll)
 }
 
 function onApplyFont(font: string, applyForAll = false) {
@@ -131,6 +140,19 @@ function onApplyColor(color: string, applyForAll = false) {
 
 function applyColorForAll(color: string) {
     inputs.value.forEach((t: Text) => t.options.backgroundColor = color)
+}
+
+function onApplyFontSize(size: number, applyForAll = false) {
+    if (applyForAll) {
+        applyFontSizeAll(size)
+    } else {
+        inputs.value[actualImageOnCarrousel.value].options.fontSize = size
+        updateLastFontSize(size)
+    }
+}
+
+function applyFontSizeAll(size: number) {
+    inputs.value.forEach((t: Text) => t.options.fontSize = size)
 }
 
 const doesHaveMoreThanOneInput = computed(() => inputs.value.length > 1)

@@ -12,16 +12,24 @@
             @on-apply="onApply"
             @apply-for-all="onApplyForAll">
         </fontFamily>
+        <fontSize
+            :dialog-clicked="fontSizeDialog"
+            @on-close="onCloseProp"
+            @on-apply="onApply"
+            @apply-for-all="onApplyForAll">
+        </fontSize>
     </div>
 </template>
 
 <script setup lang="ts">
 import backgroundColor from "~/components/background-color.vue";
 import fontFamily from "~/components/font-family.vue";
+import fontSize from "~/components/font-size.vue"
 import { DialogProps } from "@/enums/dialog-prop"
 
 let backgroundColorsDialog = ref(false);
 let fontFamilyDialog = ref(false);
+let fontSizeDialog = ref(false);
 
 const emit = defineEmits(["onApply", "onCleanProp", "onApplyForAll"])
 
@@ -29,8 +37,12 @@ function updateBackgroundColorDialog(value: boolean) {
     backgroundColorsDialog.value = value
 }
 
-function updateFontFamily(value: boolean) {
+function updateFontFamilyDialog(value: boolean) {
     fontFamilyDialog.value = value
+}
+
+function updateFontDizeDialog(value: boolean) {
+    fontSizeDialog.value = value
 }
 
 const props = defineProps({
@@ -41,12 +53,14 @@ const { propSelected } = toRefs(props);
 
 function onOpenProp(prop: string) {
     if (prop == DialogProps.BACKGROUND_COLOR) updateBackgroundColorDialog(true);
-    if (prop == DialogProps.FONT_FAMILY) updateFontFamily(true);
+    if (prop == DialogProps.FONT_FAMILY) updateFontFamilyDialog(true);
+    if (prop == DialogProps.FONT_SIZE) updateFontDizeDialog(true);
 }
 
 function onCloseProp(prop: string) {
     if (prop == DialogProps.BACKGROUND_COLOR) updateBackgroundColorDialog(false);
-    if (prop == DialogProps.FONT_FAMILY) updateFontFamily(false);
+    if (prop == DialogProps.FONT_FAMILY) updateFontFamilyDialog(false);
+    if (prop == DialogProps.FONT_SIZE) updateFontDizeDialog(false);
     onCleanPropSelected()
 }
 

@@ -3,7 +3,10 @@ import { Options } from "@/types/style-options"
 
 class TextToImage {
 
-    getDefaultOptions(backgroundColor: string, fontFamily: string) {
+    getDefaultOptions(
+        backgroundColor: string, 
+        fontFamily: string,
+        fontSize: number) {
         return {
             width: 1000,
             height: 1000,
@@ -11,7 +14,7 @@ class TextToImage {
             maxHeight: 1000,
             fontFamily: fontFamily,
             fontColor: "#FFFFFF",
-            fontSize: 72,
+            fontSize: fontSize,
             minFontSize: 10,
             lineHeight: 50,
             margin: 20,
