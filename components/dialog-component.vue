@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="dialog" max-width="300px" max-height="600px">
+    <v-dialog v-model="dialog" max-width="300px" max-height="600px" absolute class="align-flex-center-top">
         <v-card>
             <template v-slot:prepend>
                <slot name="title"></slot>
@@ -60,3 +60,10 @@ watch(dialog, () => {
 })
 
 </script>
+
+<style scoped>
+    .align-flex-center-top {
+        align-items: flex-start; 
+        justify-content: center;
+    }
+</style>
