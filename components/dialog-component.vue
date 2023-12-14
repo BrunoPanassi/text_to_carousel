@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="dialog" max-width="300px" max-height="600px" absolute class="align-flex-center-top">
+    <v-dialog v-model="dialog" max-width="350px" max-height="800px" absolute class="align-flex-center-top">
         <v-card>
             <template v-slot:prepend>
                <slot name="title"></slot>
@@ -15,8 +15,8 @@
             </v-card-actions>
             <div v-else>
                 <div class="d-flex flex-column">
-                    <v-btn color="#1780A1" class="ma-2" variant="outlined" @click="applyForAll" :disabled="!disableFunction">{{ applyForAllText }}</v-btn>
-                    <v-btn color="#1780A1" class="ma-2" variant="flat" @click="onApply" :disabled="!disableFunction">{{ apply }}</v-btn>
+                    <v-btn :color="Colors.BLACK_NIGHT" class="ma-2" variant="outlined" @click="applyForAll" :disabled="!disableFunction">{{ applyForAllText }}</v-btn>
+                    <v-btn :color="Colors.BLACK_NIGHT" class="ma-2" variant="flat" @click="onApply" :disabled="!disableFunction">{{ apply }}</v-btn>
                 </div>
             </div>
         </v-card>
@@ -24,6 +24,7 @@
 </template>
 
 <script setup lang="ts">
+import { Colors } from "@/enums/colors"
 
 let dialog = ref(false);
 

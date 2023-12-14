@@ -1,5 +1,5 @@
 <template>
-    <v-app>
+    <v-app class="default-background-color">
         <v-container>
             <v-card height="150" class="pa-5 overflow-auto">
                 <v-row v-for="(input, i) in inputs">
@@ -10,7 +10,7 @@
                     </v-text-field>
                 </v-row>
                 <v-row class="d-flex justify-center">
-                    <v-btn @click="addInput" icon="mdi-plus" color="#1780A1"></v-btn>
+                    <v-btn @click="addInput" icon="mdi-plus" :color="Colors.OXFORD_BLUE"></v-btn>
                 </v-row>
             </v-card>
             <styleOptions
@@ -34,6 +34,7 @@
 import TextToImage from "@/service/textToImage";
 import { Options } from "@/types/style-options"
 import { DialogProps } from "@/enums/dialog-prop"
+import { Colors } from "@/enums/colors"
 import allDialogs from "~/components/all-dialogs.vue";
 import styleOptions from "~/components/style-options.vue";
 
@@ -43,7 +44,7 @@ type Text = {
 }
 
 let lastBackgroundColorSelected = ref("")
-let lastBackgroundColor = computed(() => lastBackgroundColorSelected.value == "" ? "#000000" : lastBackgroundColorSelected.value)
+let lastBackgroundColor = computed(() => lastBackgroundColorSelected.value == "" ? Colors.BLACK_NIGHT : lastBackgroundColorSelected.value)
 
 let lastFontSelected = ref("")
 let lastFont = computed(() => lastFontSelected.value == "" ? "Arial" : lastFontSelected.value)
@@ -162,3 +163,9 @@ function removeInput(index: number) {
 }
 
 </script>
+
+<style scoped>
+.default-background-color {
+    background-color: #EEF0F2;
+}
+</style>
