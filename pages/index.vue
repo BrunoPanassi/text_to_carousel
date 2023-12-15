@@ -10,7 +10,7 @@
                     </v-text-field>
                 </v-row>
                 <v-row class="d-flex justify-center">
-                    <v-btn @click="addInput" icon="mdi-plus" :color="Colors.OXFORD_BLUE"></v-btn>
+                    <v-btn @click="addInput" icon="mdi-plus" :color="Colors.OXFORD_BLUE_LIGHT"></v-btn>
                 </v-row>
             </v-card>
             <styleOptions
@@ -57,6 +57,9 @@ let lastFontSize = computed(() => lastFontSizeSelected.value == 0 ? 72 : lastFon
 let lastFontColorSelected = ref("");
 let lastFontColor = computed(() => lastFontColorSelected.value == "" ? Colors.TEXT_COLOR_WHITE : lastFontColorSelected.value)
 
+let lastHorizontalAlignSelected = ref("")
+let lastHorizontalAlign = computed(() => lastHorizontalAlignSelected.value == "" ? "center" : lastHorizontalAlignSelected.value)
+
 function defaultTextValues() {
     return {
         text: "", 
@@ -64,7 +67,8 @@ function defaultTextValues() {
             lastBackgroundColor.value,
             lastFont.value,
             lastFontSize.value,
-            lastFontColor.value
+            lastFontColor.value,
+            lastHorizontalAlign.value
         )
     }
 }
@@ -88,6 +92,10 @@ function updateLastFontSize(size: number) {
 
 function updateLastFontColor(color: string) {
     lastFontColorSelected.value = color;
+}
+
+function updateLastHorizontalAlign(align: string) {
+    lastHorizontalAlignSelected.value = align;
 }
 
 function addInputOnEnter() {
@@ -126,6 +134,7 @@ function onApply(propAndValue: {prop: string, value: string | number}, applyForA
     if (propAndValue.prop == DialogProps.FONT_FAMILY) onApplyFont(propAndValue.value.toString(), applyForAll)
     if (propAndValue.prop == DialogProps.FONT_SIZE) onApplyFontSize(Number(propAndValue.value), applyForAll)
     if (propAndValue.prop == DialogProps.FONT_COLOR) onApplyFontColor(propAndValue.value.toString(), applyForAll)
+    if (propAndValue.prop == DialogProps.ALIGN) onApplyHorizontalAlign(propAndValue.value.toString(), applyForAll)
 }
 
 function onApplyFont(font: string, applyForAll = false) {
@@ -178,6 +187,19 @@ function onApplyFontColor(color: string, applyForAll = false) {
 
 function applyFontColorForAll(color: string) {
     inputs.value.forEach((t: Text) => t.options.fontColor = color)
+}
+
+function onApplyHorizontalAlign(align: string, applyForAll = false) {
+    if (applyForAll) {
+        applyHorizontalAlignForAll(align)
+    } else {
+        inputs.value[actualImageOnCarrousel.value].options.align = align;
+        updateLastHorizontalAlign(align)
+    }
+}
+
+function applyHorizontalAlignForAll(align: string) {
+    inputs.value.forEach((t: Text) => t.options.align = align)
 }
 
 const doesHaveMoreThanOneInput = computed(() => inputs.value.length > 1)

@@ -7,7 +7,8 @@ class TextToImage {
         backgroundColor: string, 
         fontFamily: string,
         fontSize: number,
-        fontColor: string) {
+        fontColor: string,
+        align: string) {
         return {
             width: 1000,
             height: 1000,
@@ -20,7 +21,7 @@ class TextToImage {
             lineHeight: 50,
             margin: 20,
             marginBottom: 40,
-            align: "center",
+            align: align,
             valign: "middle",
             backgroundColor: backgroundColor,
             autoWrapLineHeight: 80

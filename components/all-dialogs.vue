@@ -25,6 +25,13 @@
             @apply-for-all="onApplyForAll"> 
         >
         </fontColor>
+        <horizontalAlign
+            :dialog-clicked="horizontalAlignDialog"
+            @on-close="onCloseProp"
+            @on-apply="onApply"
+            @apply-for-all="onApplyForAll"
+        >
+        </horizontalAlign>
     </div>
 </template>
 
@@ -34,11 +41,13 @@ import fontFamily from "~/components/font-family.vue";
 import fontSize from "~/components/font-size.vue"
 import { DialogProps } from "@/enums/dialog-prop"
 import fontColor from "./font-color.vue";
+import horizontalAlign from "./horizontal-align.vue"
 
 let backgroundColorsDialog = ref(false);
 let fontFamilyDialog = ref(false);
 let fontSizeDialog = ref(false);
 let fontColorDialog = ref(false);
+let horizontalAlignDialog = ref(false)
 
 const emit = defineEmits(["onApply", "onCleanProp", "onApplyForAll"])
 
@@ -58,6 +67,10 @@ function updateFontColorDialog(value: boolean) {
     fontColorDialog.value = value
 }
 
+function updateHorizontalAlignDialog(value: boolean) {
+    horizontalAlignDialog.value = value
+}
+
 const props = defineProps({
     propSelected: {type: String, required: true}
 })
@@ -69,6 +82,7 @@ function onOpenProp(prop: string) {
     if (prop == DialogProps.FONT_FAMILY) updateFontFamilyDialog(true);
     if (prop == DialogProps.FONT_SIZE) updateFontDizeDialog(true);
     if (prop == DialogProps.FONT_COLOR) updateFontColorDialog(true);
+    if (prop == DialogProps.ALIGN) updateHorizontalAlignDialog(true);
 }
 
 function onCloseProp(prop: string) {
@@ -76,6 +90,7 @@ function onCloseProp(prop: string) {
     if (prop == DialogProps.FONT_FAMILY) updateFontFamilyDialog(false);
     if (prop == DialogProps.FONT_SIZE) updateFontDizeDialog(false);
     if (prop == DialogProps.FONT_COLOR) updateFontColorDialog(false);
+    if (prop == DialogProps.ALIGN) updateHorizontalAlignDialog(false);
     onCleanPropSelected()
 }
 
