@@ -6,14 +6,15 @@ class TextToImage {
     getDefaultOptions(
         backgroundColor: string, 
         fontFamily: string,
-        fontSize: number) {
+        fontSize: number,
+        fontColor: string) {
         return {
             width: 1000,
             height: 1000,
             maxWidth: 1000,
             maxHeight: 1000,
             fontFamily: fontFamily,
-            fontColor: "#FFFFFF",
+            fontColor: fontColor,
             fontSize: fontSize,
             minFontSize: 10,
             lineHeight: 50,

@@ -54,13 +54,17 @@ let lastFont = computed(() => lastFontSelected.value == "" ? "Arial" : lastFontS
 let lastFontSizeSelected = ref(0);
 let lastFontSize = computed(() => lastFontSizeSelected.value == 0 ? 72 : lastFontSizeSelected.value)
 
+let lastFontColorSelected = ref("");
+let lastFontColor = computed(() => lastFontColorSelected.value == "" ? Colors.TEXT_COLOR_WHITE : lastFontColorSelected.value)
+
 function defaultTextValues() {
     return {
         text: "", 
         options: TextToImage.getDefaultOptions(
             lastBackgroundColor.value,
             lastFont.value,
-            lastFontSize.value
+            lastFontSize.value,
+            lastFontColor.value
         )
     }
 }
@@ -80,6 +84,10 @@ function updateLastFont(font: string) {
 
 function updateLastFontSize(size: number) {
     lastFontSizeSelected.value = size;
+}
+
+function updateLastFontColor(color: string) {
+    lastFontColorSelected.value = color;
 }
 
 function addInputOnEnter() {
@@ -117,6 +125,7 @@ function onApply(propAndValue: {prop: string, value: string | number}, applyForA
     if (propAndValue.prop == DialogProps.BACKGROUND_COLOR) onApplyColor(propAndValue.value.toString(), applyForAll)
     if (propAndValue.prop == DialogProps.FONT_FAMILY) onApplyFont(propAndValue.value.toString(), applyForAll)
     if (propAndValue.prop == DialogProps.FONT_SIZE) onApplyFontSize(Number(propAndValue.value), applyForAll)
+    if (propAndValue.prop == DialogProps.FONT_COLOR) onApplyFontColor(propAndValue.value.toString(), applyForAll)
 }
 
 function onApplyFont(font: string, applyForAll = false) {
@@ -156,6 +165,19 @@ function onApplyFontSize(size: number, applyForAll = false) {
 
 function applyFontSizeAll(size: number) {
     inputs.value.forEach((t: Text) => t.options.fontSize = size)
+}
+
+function onApplyFontColor(color: string, applyForAll = false) {
+    if (applyForAll) {
+        applyFontColorForAll(color)
+    } else {
+        inputs.value[actualImageOnCarrousel.value].options.fontColor = color;
+        updateLastFontColor(color)
+    }
+}
+
+function applyFontColorForAll(color: string) {
+    inputs.value.forEach((t: Text) => t.options.fontColor = color)
 }
 
 const doesHaveMoreThanOneInput = computed(() => inputs.value.length > 1)

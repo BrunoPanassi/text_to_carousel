@@ -22,7 +22,7 @@ import colorPicker from './color-picker.vue';
 
 let color = ref("")
 
-const title = "Cor de Fundo"
+const title = "Cor da Fonte"
 
 const props = defineProps({
     dialogClicked: { type: Boolean, required: true}
@@ -31,15 +31,15 @@ const props = defineProps({
 const isColorSelected = computed(() => !!color.value)
 
 const { dialogClicked } = toRefs(props)
-const emit = defineEmits(["onClose", "applyColor", "applyForAll"])
+const emit = defineEmits(["onClose", "onApply", "applyForAll"])
 
 function onPickColor(colorPicked : string) {
     color.value = colorPicked
 }
 
 function applyColor() {
-    emit("applyColor", {
-        prop: DialogProps.BACKGROUND_COLOR,
+    emit("onApply", {
+        prop: DialogProps.FONT_COLOR,
         value: color.value
     })
     onClose()
@@ -47,14 +47,17 @@ function applyColor() {
 
 function applyForAll() {
     emit("applyForAll", {
-        prop: DialogProps.BACKGROUND_COLOR,
+        prop: DialogProps.FONT_COLOR,
         value: color.value
     })
     onClose()
 }
 
 function onClose() {
-    emit("onClose", DialogProps.BACKGROUND_COLOR)
+    emit("onClose", DialogProps.FONT_COLOR)
 }
-
 </script>
+
+<style scoped>
+
+</style>
