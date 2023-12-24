@@ -1,5 +1,5 @@
 <template>
-    <v-color-picker min-width="150" mode="hexa" v-model="color"></v-color-picker>
+    <v-color-picker id="font-color" min-width="150" mode="hexa" v-model="color"></v-color-picker>
     <simpleDialog :dialog-clicked="confirmDialog" @on-confirm="onConfirm" />
 </template>
 
@@ -17,7 +17,7 @@ const { action } = toRefs(props)
 const emit = defineEmits(["onClose", "onCleanAction"])
 
 let color = ref("")
-let lastBackgroundColor = ref("");
+let lastFontColor = ref("");
 
 const inputsStore = useInputsStore()
 const { tab } = storeToRefs(inputsStore) 
@@ -43,16 +43,15 @@ function onApply() {
 }
 
 function onApplyForAll() {
-    inputsStore.updateStyleOptionForAll(DialogProps.BACKGROUND_COLOR);
+    inputsStore.updateStyleOptionForAll(DialogProps.FONT_COLOR);
     closeConfirmDialog()
     emit("onClose")
 }
 
 function onClose() {
-    inputsStore.updateStyleOption(lastBackgroundColor.value, DialogProps.BACKGROUND_COLOR);
+    inputsStore.updateStyleOption(lastFontColor.value, DialogProps.FONT_COLOR);
     emit("onClose")
 }
-
 
 function scrollToTheTop() {
     const elementId = document.getElementById("font-color")
@@ -65,8 +64,8 @@ function scrollToTheTop() {
 }
 
 onMounted(() => {
-    lastBackgroundColor.value = inputsStore.getActualPropValueOnEdit(DialogProps.BACKGROUND_COLOR).toString()
-    color.value = inputsStore.getActualPropValueOnEdit(DialogProps.BACKGROUND_COLOR).toString()
+    lastFontColor.value = inputsStore.getActualPropValueOnEdit(DialogProps.FONT_COLOR).toString()
+    color.value = inputsStore.getActualPropValueOnEdit(DialogProps.FONT_COLOR).toString()
     scrollToTheTop()
 })
 
@@ -83,7 +82,7 @@ watch(tab, () => {
 })
 
 watch(color, () => {
-    inputsStore.updateStyleOption(color.value, DialogProps.BACKGROUND_COLOR)
+    inputsStore.updateStyleOption(color.value, DialogProps.FONT_COLOR)
 })
 
 </script>

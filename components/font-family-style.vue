@@ -1,5 +1,5 @@
 <template>
-    <v-color-picker min-width="150" mode="hexa" v-model="color"></v-color-picker>
+    <v-select id="font-family" style="max-width: 300px;" class="mr-2" :items="fonts" v-model="fontSelected"></v-select>
     <simpleDialog :dialog-clicked="confirmDialog" @on-confirm="onConfirm" />
 </template>
 
@@ -7,6 +7,11 @@
 import { useInputsStore } from "#imports";
 import simpleDialog from "@/components/simple-dialog.vue"
 import { DialogProps } from '~/enums/dialog-prop';
+
+let fonts = [
+    "Arial",
+    "Sans"
+]
 
 const props = defineProps({
     action: {Type: String, required: false, default: ""}
@@ -16,8 +21,8 @@ const { action } = toRefs(props)
 
 const emit = defineEmits(["onClose", "onCleanAction"])
 
-let color = ref("")
-let lastBackgroundColor = ref("");
+let fontSelected = ref("Arial")
+let lastFontFamily = ref("");
 
 const inputsStore = useInputsStore()
 const { tab } = storeToRefs(inputsStore) 
@@ -43,19 +48,18 @@ function onApply() {
 }
 
 function onApplyForAll() {
-    inputsStore.updateStyleOptionForAll(DialogProps.BACKGROUND_COLOR);
+    inputsStore.updateStyleOptionForAll(DialogProps.FONT_FAMILY);
     closeConfirmDialog()
     emit("onClose")
 }
 
 function onClose() {
-    inputsStore.updateStyleOption(lastBackgroundColor.value, DialogProps.BACKGROUND_COLOR);
+    inputsStore.updateStyleOption(lastFontFamily.value, DialogProps.FONT_FAMILY);
     emit("onClose")
 }
 
-
 function scrollToTheTop() {
-    const elementId = document.getElementById("font-color")
+    const elementId = document.getElementById("font-family")
     if (elementId) elementId.scrollIntoView({behavior: "smooth"})
     window.scrollTo({
         top: 0,
@@ -65,8 +69,8 @@ function scrollToTheTop() {
 }
 
 onMounted(() => {
-    lastBackgroundColor.value = inputsStore.getActualPropValueOnEdit(DialogProps.BACKGROUND_COLOR).toString()
-    color.value = inputsStore.getActualPropValueOnEdit(DialogProps.BACKGROUND_COLOR).toString()
+    lastFontFamily.value = inputsStore.getActualPropValueOnEdit(DialogProps.FONT_FAMILY).toString()
+    fontSelected.value = inputsStore.getActualPropValueOnEdit(DialogProps.FONT_FAMILY).toString()
     scrollToTheTop()
 })
 
@@ -82,8 +86,8 @@ watch(tab, () => {
     onClose()
 })
 
-watch(color, () => {
-    inputsStore.updateStyleOption(color.value, DialogProps.BACKGROUND_COLOR)
+watch(fontSelected, () => {
+    inputsStore.updateStyleOption(fontSelected.value, DialogProps.FONT_FAMILY)
 })
 
 </script>

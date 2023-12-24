@@ -1,4 +1,5 @@
 type Options = {
+    [index: string]: string | number;
     width: number;
     height: number;
     maxWidth: number;
@@ -13,7 +14,7 @@ type Options = {
     align: string,
     valign: string,
     backgroundColor: string,
-    underlineSize?: number,
+    underlineSize: number,
     autoWrapLineHeight: number;
 }
 

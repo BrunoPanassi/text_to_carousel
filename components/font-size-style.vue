@@ -1,5 +1,17 @@
 <template>
-    <v-color-picker min-width="150" mode="hexa" v-model="color"></v-color-picker>
+     <v-row id="font-size" class="d-flex flex-column py-13 pr-2" style="max-width: 600px;">
+        <v-slider v-model="fontSize" :min="minSize" :max="maxSize" hide-details>
+            <template v-slot:prepend>
+                <v-btn size="small" elevation="5" @click="minus" icon="mdi-minus"></v-btn>
+            </template>
+            <template v-slot:append>
+                <v-btn size="small" elevation="5" @click="plus" icon="mdi-plus"></v-btn>
+            </template>
+        </v-slider>
+        <div class="d-flex justify-center my-2 mx-5">
+            {{ fontSize.toFixed() }}
+        </div>
+        </v-row>
     <simpleDialog :dialog-clicked="confirmDialog" @on-confirm="onConfirm" />
 </template>
 
@@ -7,6 +19,18 @@
 import { useInputsStore } from "#imports";
 import simpleDialog from "@/components/simple-dialog.vue"
 import { DialogProps } from '~/enums/dialog-prop';
+
+const minSize = 0
+const maxSize = 120
+let fontSize = ref(maxSize)
+
+function plus() {
+    if (fontSize.value < maxSize)  fontSize.value += 1
+}
+
+function minus() {
+    if (fontSize.value > minSize) fontSize.value -= 1
+}
 
 const props = defineProps({
     action: {Type: String, required: false, default: ""}
@@ -16,8 +40,7 @@ const { action } = toRefs(props)
 
 const emit = defineEmits(["onClose", "onCleanAction"])
 
-let color = ref("")
-let lastBackgroundColor = ref("");
+let lastFontSize = ref(fontSize.value);
 
 const inputsStore = useInputsStore()
 const { tab } = storeToRefs(inputsStore) 
@@ -43,19 +66,18 @@ function onApply() {
 }
 
 function onApplyForAll() {
-    inputsStore.updateStyleOptionForAll(DialogProps.BACKGROUND_COLOR);
+    inputsStore.updateStyleOptionForAll(DialogProps.FONT_SIZE);
     closeConfirmDialog()
     emit("onClose")
 }
 
 function onClose() {
-    inputsStore.updateStyleOption(lastBackgroundColor.value, DialogProps.BACKGROUND_COLOR);
+    inputsStore.updateStyleOption(lastFontSize.value, DialogProps.FONT_SIZE);
     emit("onClose")
 }
 
-
 function scrollToTheTop() {
-    const elementId = document.getElementById("font-color")
+    const elementId = document.getElementById("font-size")
     if (elementId) elementId.scrollIntoView({behavior: "smooth"})
     window.scrollTo({
         top: 0,
@@ -65,8 +87,8 @@ function scrollToTheTop() {
 }
 
 onMounted(() => {
-    lastBackgroundColor.value = inputsStore.getActualPropValueOnEdit(DialogProps.BACKGROUND_COLOR).toString()
-    color.value = inputsStore.getActualPropValueOnEdit(DialogProps.BACKGROUND_COLOR).toString()
+    lastFontSize.value = Number(inputsStore.getActualPropValueOnEdit(DialogProps.FONT_SIZE))
+    fontSize.value = Number(inputsStore.getActualPropValueOnEdit(DialogProps.FONT_SIZE))
     scrollToTheTop()
 })
 
@@ -82,8 +104,8 @@ watch(tab, () => {
     onClose()
 })
 
-watch(color, () => {
-    inputsStore.updateStyleOption(color.value, DialogProps.BACKGROUND_COLOR)
+watch(fontSize, () => {
+    inputsStore.updateStyleOption(fontSize.value, DialogProps.FONT_SIZE)
 })
 
 </script>

@@ -28,8 +28,58 @@ class TextToImage {
         }
     }
 
+    getInitialOptions(backgroundColor = "#141414") {
+        return {
+            width: 1000,
+            height: 1000,
+            maxWidth: 1000,
+            maxHeight: 1000,
+            fontFamily: "Arial",
+            fontColor: "#FFFFFF",
+            fontSize: 72,
+            minFontSize: 10,
+            lineHeight: 50,
+            margin: 20,
+            marginBottom: 40,
+            align: "center",
+            valign: "middle",
+            backgroundColor: backgroundColor,
+            autoWrapLineHeight: 80
+        } as Options
+    }
+
+    getStyleOptions(options: Options) {
+        const backgroundColor = options.backgroundColor ?? "#141414"
+        const fontColor = options.fontColor ?? "#FFFFFF"
+        const fontFamily = options.fontFamily ?? "Arial"
+        const fontSize = options.fontSize ?? 72
+        const align = options.align ?? "center"
+        const valign = options.valign ?? "middle"
+        return { 
+            width: 1000,
+            height: 1000,
+            maxWidth: 1000,
+            maxHeight: 1000,
+            fontFamily: fontFamily,
+            fontColor: fontColor,
+            fontSize: fontSize,
+            minFontSize: 10,
+            lineHeight: 50,
+            margin: 20,
+            marginBottom: 40,
+            align:align,
+            valign: valign,
+            backgroundColor: backgroundColor,
+            underlineSize: 0,
+            autoWrapLineHeight: 80 } as Options
+    }
+
     render(text: string, options: Options) {
         return new UltimateTextToImage(text, options).render().toDataUrl()
+    }
+
+    new(text: string, options: Options) {
+        return new UltimateTextToImage(text, options)
     }
 }
 

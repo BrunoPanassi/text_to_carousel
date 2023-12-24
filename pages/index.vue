@@ -21,213 +21,78 @@
                 </v-card>
                 </v-window-item>
                 <v-window-item :value="2">
-                <v-card height="250" class="pa-5 overflow-auto">
+                <v-card max-height="250" class="pa-5 overflow-auto">
                     <styleOptions
                         @on-click="openStyleOptions"
                     ></styleOptions>
                 </v-card>
                 </v-window-item>
             </v-window>
-            <v-carousel show-arrows="hover" v-model="actualImageOnCarrousel">
+            <v-carousel :disabled="tab == 2" show-arrows="hover" v-model="actualImageOnCarrousel">
                 <v-carousel-item v-for="(image, key) in images" :key="key" :src="image">
                 </v-carousel-item>
             </v-carousel>
         </v-container>
-        <allDialogs
-            :prop-selected="propSelected"
-            @on-apply="onApply"
-            @on-apply-for-all="onApplyForAll"
-            @on-clean-prop="onCleanPropSelected"
-        ></allDialogs>
     </v-app>
 </template>
 
 <script setup lang="ts">
 import TextToImage from "@/service/textToImage";
 import { Options } from "@/types/style-options"
-import { DialogProps } from "@/enums/dialog-prop"
 import { Colors } from "@/enums/colors"
-import allDialogs from "~/components/all-dialogs.vue";
 import styleOptions from "~/components/style-options.vue";
+import { useInputsStore } from "@/stores/inputs"
 
-type Text = {
-    text: string,
-    options: Options
-}
+const inputsStore = useInputsStore()
 
 let tab = ref();
 
 const textFieldPlaceholder = "Digite o seu texto aqui"
 
-let lastBackgroundColorSelected = ref("")
-let lastBackgroundColor = computed(() => lastBackgroundColorSelected.value == "" ? Colors.BLACK_NIGHT : lastBackgroundColorSelected.value)
-
-let lastFontSelected = ref("")
-let lastFont = computed(() => lastFontSelected.value == "" ? "Arial" : lastFontSelected.value)
-
-let lastFontSizeSelected = ref(0);
-let lastFontSize = computed(() => lastFontSizeSelected.value == 0 ? 72 : lastFontSizeSelected.value)
-
-let lastFontColorSelected = ref("");
-let lastFontColor = computed(() => lastFontColorSelected.value == "" ? Colors.TEXT_COLOR_WHITE : lastFontColorSelected.value)
-
-let lastHorizontalAlignSelected = ref("")
-let lastHorizontalAlign = computed(() => lastHorizontalAlignSelected.value == "" ? "center" : lastHorizontalAlignSelected.value)
-
-function defaultTextValues() {
-    return {
-        text: "", 
-        options: TextToImage.getDefaultOptions(
-            lastBackgroundColor.value,
-            lastFont.value,
-            lastFontSize.value,
-            lastFontColor.value,
-            lastHorizontalAlign.value
-        )
-    }
-}
-
-let inputs: Ref<Array<Text>> = ref([defaultTextValues()]);
-let images = computed(() => inputs.value.map((i) => TextToImage.render(i.text, i.options)))
+let inputs = inputsStore.getInputs;
+let textToImages = computed(() => inputs.map((i) => TextToImage.new(i.text, i.options)))
+let images = computed(() => textToImages.value.map((i) => i.render().toDataUrl()))
 let actualImageOnCarrousel = ref(0);
 let propSelected = ref("")
-
-function updateLastBackgroundColor(color: string) {
-    lastBackgroundColorSelected.value = color;
-}
-
-function updateLastFont(font: string) {
-    lastFontSelected.value = font;
-}
-
-function updateLastFontSize(size: number) {
-    lastFontSizeSelected.value = size;
-}
-
-function updateLastFontColor(color: string) {
-    lastFontColorSelected.value = color;
-}
-
-function updateLastHorizontalAlign(align: string) {
-    lastHorizontalAlignSelected.value = align;
-}
 
 function addInputOnEnter() {
     addInput();
 }
 
 function addInput() {
-    inputs.value.push(defaultTextValues())
+    inputsStore.addInput()
     scrollToLastTextField()
 }
 
 function scrollToLastTextField() {
-    const elementId = document.getElementById(actualImageOnCarrousel.value.toString())
-    if (elementId) elementId.scrollIntoView()
+    const elementId = document.getElementById(inputsStore.getActualIndexOnEdit.toString())
+    if (elementId) elementId.scrollIntoView({ behavior: "smooth"})
 }
 
 function openStyleOptions(prop: string) {
     propSelected.value = prop;
 }
 
-function onCleanPropSelected() {
-    propSelected.value = ""
-}
-
 function updateActualImageIndex(index: number) {
     actualImageOnCarrousel.value = index;
 }
-
-function onApplyForAll(propAndValue: {prop: string, value: string | number}) {
-    const APPLY_FOR_ALL = true
-    onApply(propAndValue, APPLY_FOR_ALL)
-}
-
-function onApply(propAndValue: {prop: string, value: string | number}, applyForAll = false) {
-    if (propAndValue.prop == DialogProps.BACKGROUND_COLOR) onApplyColor(propAndValue.value.toString(), applyForAll)
-    if (propAndValue.prop == DialogProps.FONT_FAMILY) onApplyFont(propAndValue.value.toString(), applyForAll)
-    if (propAndValue.prop == DialogProps.FONT_SIZE) onApplyFontSize(Number(propAndValue.value), applyForAll)
-    if (propAndValue.prop == DialogProps.FONT_COLOR) onApplyFontColor(propAndValue.value.toString(), applyForAll)
-    if (propAndValue.prop == DialogProps.ALIGN) onApplyHorizontalAlign(propAndValue.value.toString(), applyForAll)
-}
-
-function onApplyFont(font: string, applyForAll = false) {
-    if (applyForAll) {
-        applyFontForAll(font)
-    } else {
-        inputs.value[actualImageOnCarrousel.value].options.fontFamily = font
-        updateLastFont(font)
-    }
-}
-
-function applyFontForAll(font: string) {
-    inputs.value.forEach((t: Text) => t.options.fontFamily = font)
-}
-
-function onApplyColor(color: string, applyForAll = false) {
-    if (applyForAll) {
-        applyColorForAll(color)
-    } else {
-        inputs.value[actualImageOnCarrousel.value].options.backgroundColor = color;
-        updateLastBackgroundColor(color)
-    }
-}
-
-function applyColorForAll(color: string) {
-    inputs.value.forEach((t: Text) => t.options.backgroundColor = color)
-}
-
-function onApplyFontSize(size: number, applyForAll = false) {
-    if (applyForAll) {
-        applyFontSizeAll(size)
-    } else {
-        inputs.value[actualImageOnCarrousel.value].options.fontSize = size
-        updateLastFontSize(size)
-    }
-}
-
-function applyFontSizeAll(size: number) {
-    inputs.value.forEach((t: Text) => t.options.fontSize = size)
-}
-
-function onApplyFontColor(color: string, applyForAll = false) {
-    if (applyForAll) {
-        applyFontColorForAll(color)
-    } else {
-        inputs.value[actualImageOnCarrousel.value].options.fontColor = color;
-        updateLastFontColor(color)
-    }
-}
-
-function applyFontColorForAll(color: string) {
-    inputs.value.forEach((t: Text) => t.options.fontColor = color)
-}
-
-function onApplyHorizontalAlign(align: string, applyForAll = false) {
-    if (applyForAll) {
-        applyHorizontalAlignForAll(align)
-    } else {
-        inputs.value[actualImageOnCarrousel.value].options.align = align;
-        updateLastHorizontalAlign(align)
-    }
-}
-
-function applyHorizontalAlignForAll(align: string) {
-    inputs.value.forEach((t: Text) => t.options.align = align)
-}
-
-const doesHaveMoreThanOneInput = computed(() => inputs.value.length > 1)
 
 function goToLastIndex(index: number) {
     actualImageOnCarrousel.value = (index - 1)
 }
 
 function removeInput(index: number) {
-    if (doesHaveMoreThanOneInput.value) {
-        inputs.value.splice(index, 1)
-        goToLastIndex(index)
-    }
+    inputsStore.removeInputByIndex(index)
+    goToLastIndex(index)
 }
+
+watch(actualImageOnCarrousel, () => {
+    inputsStore.updateActualIndex(actualImageOnCarrousel.value)
+})
+
+watch(tab, () => {
+    inputsStore.updateTab(tab.value)
+})
 
 </script>
 
