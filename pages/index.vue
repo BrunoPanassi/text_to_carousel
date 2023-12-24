@@ -38,7 +38,6 @@
 
 <script setup lang="ts">
 import TextToImage from "@/service/textToImage";
-import { Options } from "@/types/style-options"
 import { Colors } from "@/enums/colors"
 import styleOptions from "~/components/style-options.vue";
 import { useInputsStore } from "@/stores/inputs"
