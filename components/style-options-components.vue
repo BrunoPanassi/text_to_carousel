@@ -29,6 +29,12 @@
         @on-close="onClose"
         @on-clean-action="onCleanAction"
     />
+    <verticalAlignStyle
+        v-if="prop == DialogProps.VALIGN" 
+        :action="action"
+        @on-close="onClose"
+        @on-clean-action="onCleanAction"
+    />
 </template>
 
 <script setup lang="ts">
@@ -37,6 +43,7 @@ import fontColorStyle from './font-color-style.vue';
 import fontFamilyStyle from './font-family-style.vue';
 import fontSizeStyle from './font-size-style.vue';
 import horizontalAlignStyle from './horizontal-align-style.vue';
+import verticalAlignStyle from './vertical-align-style.vue';
 import { DialogProps } from '~/enums/dialog-prop';
 
 const props = defineProps({
