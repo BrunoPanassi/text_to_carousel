@@ -10,7 +10,11 @@ import { DialogProps } from '~/enums/dialog-prop';
 
 let fonts = [
     "Arial",
-    "Sans"
+    "Helvetica",
+    "Verdana, Tahoma",
+    "Times New Roman",
+    "Courier New",
+    "Noto Sans TC"
 ]
 
 const props = defineProps({
