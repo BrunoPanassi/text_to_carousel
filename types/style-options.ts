@@ -1,5 +1,5 @@
 type Options = {
-    [index: string]: string | number;
+    [index: string]: string | number | boolean;
     width: number;
     height: number;
     maxWidth: number;
@@ -16,6 +16,8 @@ type Options = {
     backgroundColor: string,
     underlineSize: number,
     autoWrapLineHeight: number;
+    fontWeight: boolean;
+    fontStyle: boolean;
 }
 
 export { Options }

@@ -42,7 +42,6 @@
 <script setup lang="ts">
 import { DialogProps } from "@/enums/dialog-prop"
 import styleOptionsComponents from "./style-options-components.vue";
-import { useInputsStore } from "@/stores/inputs"
 import { Colors } from "@/enums/colors"
 
 const emit = defineEmits(["onClick", "onApply"])
@@ -50,8 +49,6 @@ const emit = defineEmits(["onClick", "onApply"])
 let expand = ref(false);
 let prop = ref("");
 let action = ref("")
-
-const inputsStore = useInputsStore()
 
 const styleOptionsItens = [
     {
@@ -79,6 +76,10 @@ const styleOptionsItens = [
             {
                 text: "Tamanho da Fonte",
                 prop: DialogProps.FONT_SIZE,
+            },
+            {
+                text: "Estilo da Fonte",
+                prop: DialogProps.ITALIC,
             }
         ]
     },

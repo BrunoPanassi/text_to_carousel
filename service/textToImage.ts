@@ -44,7 +44,9 @@ class TextToImage {
             align: "center",
             valign: "middle",
             backgroundColor: backgroundColor,
-            autoWrapLineHeight: 80
+            autoWrapLineHeight: 80,
+            fontWeight: false,
+            fontStyle: false
         } as Options
     }
 
@@ -55,6 +57,8 @@ class TextToImage {
         const fontSize = options.fontSize ?? 72
         const align = options.align ?? "center"
         const valign = options.valign ?? "middle"
+        const bold = options.bold ?? false
+        const italic = options.italic ?? false
         return { 
             width: 1000,
             height: 1000,
@@ -71,7 +75,9 @@ class TextToImage {
             valign: valign,
             backgroundColor: backgroundColor,
             underlineSize: 0,
-            autoWrapLineHeight: 80 } as Options
+            autoWrapLineHeight: 80,
+            fontWeight: bold,
+            fontStyle: italic } as Options
     }
 
     render(text: string, options: Options) {

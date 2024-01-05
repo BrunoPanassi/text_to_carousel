@@ -4,5 +4,7 @@ export const enum DialogProps {
     FONT_SIZE = "fontSize",
     FONT_COLOR = "fontColor",
     ALIGN = "align",
-    VALIGN = "valign"
+    VALIGN = "valign",
+    BOLD = "fontWeight",
+    ITALIC = "fontStyle"
 }
