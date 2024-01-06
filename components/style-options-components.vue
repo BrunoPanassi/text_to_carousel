@@ -36,7 +36,13 @@
         @on-clean-action="onCleanAction"
     />
     <fontStyle
-        v-if="prop == DialogProps.FONT_STYLE" 
+        v-if="prop == DialogProps.ITALIC" 
+        :action="action"
+        @on-close="onClose"
+        @on-clean-action="onCleanAction"
+    />
+    <marginStyle
+        v-if="prop == DialogProps.MARGIN" 
         :action="action"
         @on-close="onClose"
         @on-clean-action="onCleanAction"
@@ -51,6 +57,7 @@ import fontSizeStyle from './font-size-style.vue';
 import horizontalAlignStyle from './horizontal-align-style.vue';
 import verticalAlignStyle from './vertical-align-style.vue';
 import fontStyle from './font-style.vue';
+import marginStyle from './margin-style.vue';
 import { DialogProps } from '~/enums/dialog-prop';
 
 const props = defineProps({

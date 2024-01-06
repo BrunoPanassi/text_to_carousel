@@ -6,5 +6,10 @@ export const enum DialogProps {
     ALIGN = "align",
     VALIGN = "valign",
     BOLD = "fontWeight",
-    ITALIC = "fontStyle"
+    ITALIC = "fontStyle",
+    MARGIN = "margin",
+    MARGIN_TOP = "marginTop",
+    MARGIN_LEFT = "marginLeft",
+    MARGIN_RIGHT = "marginRight",
+    MARGIN_BOTTOM = "marginBottom"
 }

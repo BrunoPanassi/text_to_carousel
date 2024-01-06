@@ -94,6 +94,10 @@ const styleOptionsItens = [
             {
                 text: "Alinhamento Vertical",
                 prop: DialogProps.VALIGN,
+            },
+            {
+                text: "Margem",
+                prop: DialogProps.MARGIN,
             }
         ]
     }

@@ -10,6 +10,9 @@ type Options = {
     minFontSize: number;
     lineHeight: number;
     margin: number;
+    marginTop: number;
+    marginLeft: number;
+    marginRight: number;
     marginBottom: number;
     align: string,
     valign: string,

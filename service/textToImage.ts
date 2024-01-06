@@ -40,6 +40,9 @@ class TextToImage {
             minFontSize: 10,
             lineHeight: 50,
             margin: 20,
+            marginTop: 0,
+            marginLeft: 0,
+            marginRight: 0,
             marginBottom: 40,
             align: "center",
             valign: "middle",
@@ -59,6 +62,10 @@ class TextToImage {
         const valign = options.valign ?? "middle"
         const bold = options.bold ?? false
         const italic = options.italic ?? false
+        const marginTop = options.marginTop
+        const marginLeft = options.marginLeft
+        const marginRight = options.marginRight
+        const marginBottom = options.marginBottom
         return { 
             width: 1000,
             height: 1000,
@@ -70,7 +77,10 @@ class TextToImage {
             minFontSize: 10,
             lineHeight: 50,
             margin: 20,
-            marginBottom: 40,
+            marginTop: marginTop,
+            marginLeft: marginLeft,
+            marginRight: marginRight,
+            marginBottom: marginBottom,
             align:align,
             valign: valign,
             backgroundColor: backgroundColor,
