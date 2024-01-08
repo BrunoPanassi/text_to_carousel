@@ -48,7 +48,7 @@ import { Colors } from "@/enums/colors"
 import styleOptions from "~/components/style-options.vue";
 import { useInputsStore } from "@/stores/inputs"
 import JSZip from "jszip"
-import { saveAs } from "file-saver"
+import saveAs from "file-saver"
 
 const inputsStore = useInputsStore()
 
