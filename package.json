@@ -21,7 +21,6 @@
     "@mdi/font": "^7.3.67",
     "@pinia/nuxt": "^0.5.1",
     "@types/file-saver": "^2.0.7",
-    "canvas": "^2.6.1",
     "file-saver": "^2.0.5",
     "jszip": "^3.10.1",
     "ultimate-text-to-image": "^1.0.1"
