@@ -32,6 +32,12 @@
                 <v-carousel-item v-for="(image, key) in images" :key="key" :src="image">
                 </v-carousel-item>
             </v-carousel>
+            <v-row class="d-flex justify-center my-10">
+                <v-btn size="large" :color="Colors.OXFORD_BLUE_LIGHT" @click="download" :loading="downloadLoading">
+                    Baixar
+                    <v-icon end icon="mdi-download"></v-icon>
+                </v-btn>
+            </v-row>
         </v-container>
     </v-app>
 </template>
@@ -41,6 +47,8 @@ import TextToImage from "@/service/textToImage";
 import { Colors } from "@/enums/colors"
 import styleOptions from "~/components/style-options.vue";
 import { useInputsStore } from "@/stores/inputs"
+import JSZip from "jszip"
+import { saveAs } from "file-saver"
 
 const inputsStore = useInputsStore()
 
@@ -51,8 +59,32 @@ const textFieldPlaceholder = "Digite o seu texto aqui"
 let inputs = inputsStore.getInputs;
 let textToImages = computed(() => inputs.map((i) => TextToImage.new(i.text, i.options)))
 let images = computed(() => textToImages.value.map((i) => i.render().toDataUrl()))
+let imagesToDownload = computed(() => {
+    return images.value.map((image, i) => {
+        return {
+            title: `image_${i}`,
+            image: image.replace(/^data:image\/(png|jpg);base64,/, "")
+        }
+    })
+})
 let actualImageOnCarrousel = ref(0);
 let propSelected = ref("")
+
+let downloadLoading = ref(false);
+
+async function download() {
+    let zip = new JSZip()
+    zip.folder("images")
+    let imagesFolder = zip.folder("images")
+    imagesToDownload.value.forEach((image) => {
+        imagesFolder?.file(image.title, image.image, {base64: true})
+    })
+    downloadLoading.value = true;
+    await zip.generateAsync({type:"blob"}).then(function(content) {
+        saveAs(content, "carofy.zip");
+    });
+    downloadLoading.value = false;
+}
 
 function addInputOnEnter() {
     addInput();

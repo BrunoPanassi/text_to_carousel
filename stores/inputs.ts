@@ -11,6 +11,7 @@ export const useInputsStore = defineStore('inputs', {
     },
     getters: {
         getInputs: (state) => state.inputs,
+        doesHaveTheMaxInputs: (state) => state.inputs.length == 12,
         doesHaveMoreThanOneInput: (state) => state.inputs.length > 1,
         getActualIndexOnEdit: (state) => state.actualIndexOnEdit,
         getActualPropValueOnEdit: (state) => { return (prop: string) => state.inputs[state.actualIndexOnEdit].options[prop] },
@@ -19,7 +20,9 @@ export const useInputsStore = defineStore('inputs', {
     },
     actions: {
         addInput() {
-            this.inputs.push({text: "", options: TextToImage.getStyleOptions(this.getActualStyleOptions)})
+            if (!this.doesHaveTheMaxInputs) {
+                this.inputs.push({text: "", options: TextToImage.getStyleOptions(this.getActualStyleOptions)})
+            }
         },
         removeInputByIndex(index: number) {
             if (this.doesHaveMoreThanOneInput) {
