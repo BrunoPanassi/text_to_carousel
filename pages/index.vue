@@ -48,7 +48,7 @@ import { Colors } from "@/enums/colors"
 import styleOptions from "~/components/style-options.vue";
 import { useInputsStore } from "@/stores/inputs"
 import JSZip from "jszip"
-import saveAs from "file-saver"
+import fileSaver from "file-saver"
 
 const inputsStore = useInputsStore()
 
@@ -81,7 +81,7 @@ async function download() {
     })
     downloadLoading.value = true;
     await zip.generateAsync({type:"blob"}).then(function(content) {
-        saveAs(content, "carofy.zip");
+        fileSaver.saveAs(content, "carofy.zip");
     });
     downloadLoading.value = false;
 }
