@@ -62,7 +62,7 @@ let images = computed(() => textToImages.value.map((i) => i.render().toDataUrl()
 let imagesToDownload = computed(() => {
     return images.value.map((image, i) => {
         return {
-            title: `image_${i}`,
+            title: `image_${i}.png`,
             image: image.replace(/^data:image\/(png|jpg);base64,/, "")
         }
     })
@@ -77,11 +77,15 @@ async function download() {
     zip.folder("images")
     let imagesFolder = zip.folder("images")
     imagesToDownload.value.forEach((image) => {
-        imagesFolder?.file(image.title, image.image, {base64: true})
+        imagesFolder?.file(image.title, image.image, {base64: true, binary: true})
     })
+
+    const date = new Date();
+    const time = date.toLocaleTimeString().split(":").join("_")
+
     downloadLoading.value = true;
     await zip.generateAsync({type:"blob"}).then(function(content) {
-        fileSaver.saveAs(content, "carofy.zip");
+        fileSaver.saveAs(content, `carofy_${date.toLocaleDateString()}_${time}.zip`);
     });
     downloadLoading.value = false;
 }
