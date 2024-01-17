@@ -19,6 +19,8 @@ const emit = defineEmits(["onClose", "onCleanAction"])
 let color = ref("")
 let lastBackgroundColor = ref("");
 
+let isSelecting = ref(false)
+
 const inputsStore = useInputsStore()
 const { tab } = storeToRefs(inputsStore) 
 
@@ -64,6 +66,21 @@ function scrollToTheTop() {
     })
 }
 
+function updateStyleOption() {
+    inputsStore.updateStyleOption(color.value, DialogProps.BACKGROUND_COLOR)
+}
+
+function updateIsSelecting(value: boolean) {
+    isSelecting.value = value
+}
+
+function setTimeOut(delay: number) {
+    setTimeout(() => {
+        updateIsSelecting(false)
+        updateStyleOption()
+    }, delay)
+}
+
 onMounted(() => {
     lastBackgroundColor.value = inputsStore.getActualPropValueOnEdit(DialogProps.BACKGROUND_COLOR).toString()
     color.value = inputsStore.getActualPropValueOnEdit(DialogProps.BACKGROUND_COLOR).toString()
@@ -83,7 +100,11 @@ watch(tab, () => {
 })
 
 watch(color, () => {
-    inputsStore.updateStyleOption(color.value, DialogProps.BACKGROUND_COLOR)
+    const DELAY_IN_SECONDS = 500
+    if (isSelecting.value == false) {
+        updateIsSelecting(true)
+        setTimeOut(DELAY_IN_SECONDS)
+    }
 })
 
 </script>

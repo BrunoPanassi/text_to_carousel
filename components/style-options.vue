@@ -1,6 +1,6 @@
 <template>
     <v-card>
-        <v-card-text>
+        <v-card-text v-if="!expand">
             <div v-for="(item, i) in styleOptionsItens">
                 <p class="ma-2 text-body-1 font-weight-medium" :key="i">
                     <v-icon :icon="item.groupIcon"></v-icon>
@@ -12,30 +12,28 @@
             </div>
         </v-card-text>
 
-        <v-expand-transition>
-            <v-card v-if="expand" class="v-card--reveal overflow-auto" style="height: 100%">
-                <v-card-text>
-                    <v-row>
-                        <v-col cols="6">
-                            <v-row class="d-flex justify-end">
-                               <styleOptionsComponents 
-                                :prop="prop" 
-                                :action="action" 
-                                @on-close="onClose" 
-                                @on-clean-action="cleanAction" />
-                            </v-row>
-                        </v-col>
-                        <v-col sm="6" lg="2">
-                            <v-row class="d-flex flex-column justify-start pl-2">
-                                <v-btn prepend-icon="mdi-close" variant="text" @click="onChooseAction('onClose')">Fechar</v-btn>
-                                <v-btn class="mt-2" :color="Colors.OXFORD_BLUE_LIGHT" @click="onChooseAction('onApply')">Aplicar</v-btn>
-                                <v-btn class="mt-2" :color="Colors.OXFORD_BLUE" variant="tonal" @click="onChooseAction('onApplyForAll')">p/ Todos</v-btn>
-                            </v-row>
-                        </v-col>
-                    </v-row>
-                </v-card-text>
-            </v-card>
-        </v-expand-transition>
+        <v-card-text v-else>
+            <v-card-text>
+                <v-row class="mb-2">
+                    <v-col cols="4" class="pa-0 px-1">
+                        <v-btn prepend-icon="mdi-close" variant="text" @click="onChooseAction('onClose')">Fechar</v-btn>
+                    </v-col>
+                    <v-col cols="4" class="pa-0 px-1">
+                        <v-btn :color="Colors.OXFORD_BLUE_LIGHT" @click="onChooseAction('onApply')">Aplicar</v-btn>
+                    </v-col>
+                    <v-col cols="4" class="pa-0 px-1">
+                        <v-btn :color="Colors.OXFORD_BLUE" variant="tonal" @click="onChooseAction('onApplyForAll')">p/ Todos</v-btn>
+                    </v-col>
+                </v-row>
+                <v-row class="d-flex justify-center">
+                    <styleOptionsComponents 
+                        :prop="prop" 
+                        :action="action" 
+                        @on-close="onClose" 
+                        @on-clean-action="cleanAction" />
+                </v-row>
+            </v-card-text>
+        </v-card-text>
     </v-card>
 </template>
 
