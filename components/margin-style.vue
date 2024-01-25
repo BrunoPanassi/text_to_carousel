@@ -1,5 +1,5 @@
 <template>
-     <v-row id="margin-style" class="d-flex flex-column ml-1 py-2 pr-2" style="max-width: 600px;">
+     <v-row id="margin-style" class="d-flex flex-column" style="max-width: 600px;">
         <div v-for="(margin, i) in marginValues" :key="i">
             <p class="text-center pa-2">{{ margin.title }}</p>
             <v-slider v-model="margin.value" :min="minSize" :max="maxSize" hide-details>
@@ -57,9 +57,9 @@ const marginValues = ref([
 
 function plusOrMinus(title: string, plus: boolean) {
     marginValues.value.forEach((m) => {
-        if (m.title == title && m.value < maxSize) {
-            if (plus) m.value += 1
-            else m.value -= 1
+        if (m.title == title) {
+            if (plus && m.value < maxSize) m.value += 1
+            else if (!plus && m.value > minSize) m.value -= 1
         }
     })
 }
@@ -113,8 +113,8 @@ function onClose() {
 }
 
 function scrollToTheTop() {
-    const elementId = document.getElementById("margin-style")
-    if (elementId) elementId.scrollIntoView({behavior: "smooth"})
+    const elementId = document.getElementById("style-options")
+    if (elementId) elementId.scrollIntoView()
     window.scrollTo({
         top: 0,
         left: 0,
@@ -149,20 +149,57 @@ watch(tab, () => {
     onClose()
 })
 
-watch(marginTop, () => {
+let isSelecting = ref(false)
+const delayInSeconds = 500
+
+function updateIsSelecting(value: boolean) {
+    isSelecting.value = value
+}
+
+function updateWithDelay(updateFunction: Function) {
+    if (!isSelecting.value) {
+        updateIsSelecting(true)
+        setTimeOut(updateFunction)
+    }
+}
+
+function setTimeOut(updateFunction: Function) {
+    setTimeout(() => {
+        updateIsSelecting(false)
+        updateFunction()
+    }, delayInSeconds)
+}
+
+function updateMarginTop() {
     inputsStore.updateStyleOption(marginTop.value, DialogProps.MARGIN_TOP)
+}
+
+function updateMarginLeft() {
+    inputsStore.updateStyleOption(marginLeft.value, DialogProps.MARGIN_LEFT)
+}
+
+function updateMarginRight() {
+    inputsStore.updateStyleOption(marginRight.value, DialogProps.MARGIN_RIGHT)
+}
+
+function updateMarginBottom() {
+    inputsStore.updateStyleOption(marginBottom.value, DialogProps.MARGIN_BOTTOM)
+}
+
+watch(marginTop, () => {
+    updateWithDelay(updateMarginTop)
 })
 
 watch(marginLeft, () => {
-    inputsStore.updateStyleOption(marginLeft.value, DialogProps.MARGIN_LEFT)
+    updateWithDelay(updateMarginLeft)
 })
 
 watch(marginRight, () => {
-    inputsStore.updateStyleOption(marginRight.value, DialogProps.MARGIN_RIGHT)
+    updateWithDelay(updateMarginRight)
 })
 
 watch(marginBottom, () => {
-    inputsStore.updateStyleOption(marginBottom.value, DialogProps.MARGIN_BOTTOM)
+    updateWithDelay(updateMarginBottom)
 })
 
 </script>

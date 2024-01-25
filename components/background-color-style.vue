@@ -101,7 +101,7 @@ watch(tab, () => {
 
 watch(color, () => {
     const DELAY_IN_SECONDS = 500
-    if (isSelecting.value == false) {
+    if (!isSelecting.value) {
         updateIsSelecting(true)
         setTimeOut(DELAY_IN_SECONDS)
     }

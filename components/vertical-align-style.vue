@@ -1,5 +1,5 @@
 <template>
-    <v-row id="vertical-align" class="d-flex flex-column align-end mr-5 mt-6">
+    <v-row id="vertical-align" class="d-flex flex-column align-center mt-2">
         <v-btn-toggle v-model="verticalAlign" class="my-5" :color="Colors.OXFORD_BLUE_LIGHT">
             <v-btn 
                 v-for="(align, i) in alignValues" 
@@ -89,8 +89,8 @@ function onClose() {
 }
 
 function scrollToTheTop() {
-    const elementId = document.getElementById("vertical-align")
-    if (elementId) elementId.scrollIntoView({behavior: "smooth"})
+    const elementId = document.getElementById("style-options")
+    if (elementId) elementId.scrollIntoView()
     window.scrollTo({
         top: 0,
         left: 0,

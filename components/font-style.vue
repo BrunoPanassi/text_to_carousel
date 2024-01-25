@@ -1,5 +1,5 @@
 <template>
-    <v-row id="font-style" class="d-flex flex-column align-end mr-2 mt-6">
+    <v-row id="font-style" class="d-flex flex-column align-center mt-2">
         <v-btn-toggle v-model="fontStyle" class="my-5" :color="Colors.OXFORD_BLUE_LIGHT" multiple>
             <v-btn 
                 v-for="(style, i) in styleValues" 
@@ -86,8 +86,8 @@ function onClose() {
 }
 
 function scrollToTheTop() {
-    const elementId = document.getElementById("font-style")
-    if (elementId) elementId.scrollIntoView({behavior: "smooth"})
+    const elementId = document.getElementById("style-options")
+    if (elementId) elementId.scrollIntoView()
     window.scrollTo({
         top: 0,
         left: 0,

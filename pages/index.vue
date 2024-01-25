@@ -5,8 +5,8 @@
                 <v-tab :value="1">Texto</v-tab>
                 <v-tab :value="2">Estilo</v-tab>
             </v-tabs>
-            <v-window v-model="tab">
-                <v-window-item :value="1">
+            <div>
+                <div v-if="tab == 1">
                 <v-card height="250" class="pa-5 overflow-auto">
                     <v-row v-for="(input, i) in inputs">
                         <v-text-field :placeholder="textFieldPlaceholder" autofocus v-model="input.text" :id="i.toString()" :key="i" @update:focused="updateActualImageIndex(i)" @keydown.enter="addInputOnEnter()">
@@ -19,15 +19,15 @@
                         <v-btn @click="addInput" icon="mdi-plus" :color="Colors.OXFORD_BLUE_LIGHT"></v-btn>
                     </v-row>
                 </v-card>
-                </v-window-item>
-                <v-window-item :value="2">
+                </div>
+                <div v-if="tab == 2">
                 <v-card max-height="250" class="pa-5 overflow-auto">
                     <styleOptions
                         @on-click="openStyleOptions"
                     ></styleOptions>
                 </v-card>
-                </v-window-item>
-            </v-window>
+                </div>
+            </div>
             <v-carousel :disabled="tab == 2" show-arrows="hover" v-model="actualImageOnCarrousel">
                 <v-carousel-item v-for="(image, key) in images" :key="key" :src="image">
                 </v-carousel-item>

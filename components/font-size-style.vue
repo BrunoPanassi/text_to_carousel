@@ -83,8 +83,8 @@ function onClose() {
 }
 
 function scrollToTheTop() {
-    const elementId = document.getElementById("font-size")
-    if (elementId) elementId.scrollIntoView({behavior: "smooth"})
+    const elementId = document.getElementById("style-options")
+    if (elementId) elementId.scrollIntoView()
     window.scrollTo({
         top: 0,
         left: 0,
@@ -133,7 +133,7 @@ watch(tab, () => {
 })
 
 watch(fontSize, () => {
-    const DELAY_IN_SECONDS = 1000
+    const DELAY_IN_SECONDS = 500
     if (isSelecting.value == false) {
         updateIsSelecting(true)
         setTimeOut(DELAY_IN_SECONDS)

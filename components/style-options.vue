@@ -14,7 +14,7 @@
 
         <v-card-text v-else>
             <v-card-text>
-                <v-row class="mb-2">
+                <v-row id="style-options" class="mb-2">
                     <v-col cols="4" class="pa-0 px-1">
                         <v-btn prepend-icon="mdi-close" variant="text" @click="onChooseAction('onClose')">Fechar</v-btn>
                     </v-col>
