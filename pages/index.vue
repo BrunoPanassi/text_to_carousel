@@ -28,7 +28,19 @@
                 </v-card>
                 </div>
             </div>
-            <v-carousel :disabled="tab == 2" show-arrows="hover" v-model="actualImageOnCarrousel">
+            <v-carousel :disabled="tab == 2" v-model="actualImageOnCarrousel" :touch="onTouch">
+                <template v-slot:prev="{ props }">
+                    <v-btn
+                        icon="mdi-arrow-left-thin"
+                        @click="onClickOnCarouselButton(props)"
+                    ></v-btn>
+                </template>
+                <template v-slot:next="{ props }">
+                    <v-btn
+                        icon="mdi-arrow-right-thin"
+                        @click="onClickOnCarouselButton(props)"
+                    ></v-btn>
+                </template>
                 <v-carousel-item v-for="(image, key) in images" :key="key" :src="image">
                 </v-carousel-item>
             </v-carousel>
@@ -39,6 +51,7 @@
                 </v-btn>
             </v-row>
         </v-container>
+        <dialogMessage :dialog-clicked="messageDialogClick" :message="messageDialog" @on-close="onCloseMessageDialog"/> 
     </v-app>
 </template>
 
@@ -47,6 +60,7 @@ import TextToImage from "@/service/textToImage";
 import { Colors } from "@/enums/colors"
 import styleOptions from "~/components/style-options.vue";
 import { useInputsStore } from "@/stores/inputs"
+import dialogMessage from "~/components/dialog-message.vue"
 import JSZip from "jszip"
 import fileSaver from "file-saver"
 
@@ -55,6 +69,13 @@ const inputsStore = useInputsStore()
 let tab = ref();
 
 const textFieldPlaceholder = "Digite o seu texto aqui"
+
+const messageDialogClick = ref(false);
+const messageDialog = ref("");
+
+function onCloseMessageDialog() {
+    messageDialogClick.value = false
+}
 
 let inputs = inputsStore.getInputs;
 let textToImages = computed(() => inputs.map((i) => TextToImage.new(i.text, i.options)))
@@ -69,8 +90,25 @@ let imagesToDownload = computed(() => {
 })
 let actualImageOnCarrousel = ref(0);
 let propSelected = ref("")
+let onTouch = { 
+        left: () => tryToViewCarouselOnImageEdit(),
+        right: () => tryToViewCarouselOnImageEdit()
+    }
 
 let downloadLoading = ref(false);
+
+function onClickOnCarouselButton(props: any) {
+    if (tab.value == 2) {
+        tryToViewCarouselOnImageEdit()
+    } else {
+        props.onClick()
+    }
+}
+
+function tryToViewCarouselOnImageEdit() {
+    messageDialog.value = "Finalize a edição da imagem!"
+    messageDialogClick.value = true;
+}
 
 async function download() {
     let zip = new JSZip()
