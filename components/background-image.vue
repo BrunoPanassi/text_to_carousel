@@ -2,6 +2,7 @@
     <v-file-input accept="image/*" @change="previewImage" id="my-file" chips show-size/>
     <v-btn class="mt-3 ml-5" :color="Colors.OXFORD_BLUE" @click="remove">{{ removeText }}</v-btn>
     <simpleDialog :dialog-clicked="confirmDialog" @on-confirm="onConfirm" />
+    <dialogMessage :dialog-clicked="messageDialogClick" :message="messageDialog" @on-close="onCloseMessageDialog"/> 
 </template>
 
 <script setup lang="ts">
@@ -20,6 +21,8 @@ const { action } = toRefs(props)
 const emit = defineEmits(["onClose", "onCleanAction"])
 
 let lastBackgroundImage = ref();
+let messageDialogClick = ref(false);
+let messageDialog = ref("")
 
 let removeText = "Remover"
 
@@ -32,15 +35,31 @@ const { tab } = storeToRefs(inputsStore)
 
 let confirmDialog = ref(false)
 
+function onCloseMessageDialog() {
+    messageDialogClick.value = false
+}
+
+function sizeLowerThanAllowed(fileSize: number) {
+    const sizeAllowedInMB = 2
+    const ONE_BYTE_TO_ONE_MB = 0.00000095367432
+    const fileSizeInMb = (fileSize * ONE_BYTE_TO_ONE_MB)
+    return fileSizeInMb <= sizeAllowedInMB
+}
+
 async function previewImage(event: any) {
     let input = event.target;
       if (input.files) {
-        let reader = new FileReader();
-        reader.onload = async (e) => {
-          preview.value = await e?.target?.result;
+        if (sizeLowerThanAllowed(input.files[0].size)) {
+            let reader = new FileReader();
+            reader.onload = async (e) => {
+            preview.value = await e?.target?.result;
+            }
+            image.value=input.files[0];
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            messageDialog.value = "imagem maior que 2MB, favor usar uma imagem com tamanho menor!"
+            messageDialogClick.value = true
         }
-        image.value=input.files[0];
-        reader.readAsDataURL(input.files[0]);
       }
 }
 
