@@ -1,5 +1,5 @@
 type Options = {
-    [index: string]: string | number | boolean;
+    [index: string]: string | number | boolean | Array<Object>;
     width: number;
     height: number;
     maxWidth: number;
@@ -21,6 +21,7 @@ type Options = {
     autoWrapLineHeight: number;
     fontWeight: boolean;
     fontStyle: boolean;
+    images: Array<any>;
 }
 
 export { Options }

@@ -50,6 +50,16 @@ let action = ref("")
 
 const styleOptionsItens = [
     {
+        groupText: "imagem",
+        groupIcon: "mdi-image",
+        groupItens: [
+            {
+                text: "Imagem de Fundo",
+                prop: DialogProps.BACKGROUND_IMAGE,
+            }
+        ]
+    },
+    {
         groupText: "Cor",
         groupIcon: "mdi-palette",
         groupItens: [

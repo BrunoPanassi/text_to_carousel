@@ -66,6 +66,7 @@ class TextToImage {
         const marginLeft = options.marginLeft
         const marginRight = options.marginRight
         const marginBottom = options.marginBottom
+        const images = options.images ?? []
         return { 
             width: 1000,
             height: 1000,
@@ -87,7 +88,8 @@ class TextToImage {
             underlineSize: 0,
             autoWrapLineHeight: 80,
             fontWeight: bold,
-            fontStyle: italic } as Options
+            fontStyle: italic,
+            images: images } as Options
     }
 
     render(text: string, options: Options) {

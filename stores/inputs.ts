@@ -32,7 +32,7 @@ export const useInputsStore = defineStore('inputs', {
         updateActualIndex(index: number) {
             this.actualIndexOnEdit = index
         },
-        updateStyleOption(value: string | number | boolean, prop: string) {
+        updateStyleOption(value: string | number | boolean | Array<any>, prop: string) {
             this.inputs[this.getActualIndexOnEdit].options[prop] = value
         },
         updateStyleOptionForAll(prop: string) {

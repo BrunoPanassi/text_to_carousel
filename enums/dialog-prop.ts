@@ -1,4 +1,5 @@
 export const enum DialogProps {
+    IMAGES = "images",
     BACKGROUND_COLOR = "backgroundColor",
     FONT_FAMILY = "fontFamily",
     FONT_SIZE = "fontSize",

@@ -9,7 +9,7 @@
                 <div v-if="tab == 1">
                 <v-card height="250" class="pa-5 overflow-auto">
                     <v-row v-for="(input, i) in inputs">
-                        <v-text-field :placeholder="textFieldPlaceholder" autofocus v-model="input.text" :id="i.toString()" :key="i" @update:focused="updateActualImageIndex(i)" @keydown.enter="addInputOnEnter()">
+                        <v-text-field :placeholder="textFieldPlaceholder" autofocus v-model="input.text" :id="i.toString()" :key="i" @update:model-value="updateActualImageIndex(i)" @mousedown:control="updateActualImageIndex(i)" @keydown.enter="addInputOnEnter()">
                             <template v-slot:append-inner>
                                 <v-btn variant="text" icon="mdi-close" @click="removeInput(i)" />
                             </template>
@@ -73,13 +73,18 @@ const textFieldPlaceholder = "Digite o seu texto aqui"
 const messageDialogClick = ref(false);
 const messageDialog = ref("");
 
+let isSelecting = ref(false);
+
 function onCloseMessageDialog() {
     messageDialogClick.value = false
 }
 
 let inputs = inputsStore.getInputs;
 let textToImages = computed(() => inputs.map((i) => TextToImage.new(i.text, i.options)))
-let images = computed(() => textToImages.value.map((i) => i.render().toDataUrl()))
+let images = computed(() => {
+    return isSelecting.value ? [] : textToImages.value.map((i) => i.render().toDataUrl())
+})
+
 let imagesToDownload = computed(() => {
     return images.value.map((image, i) => {
         return {
@@ -159,12 +164,30 @@ function removeInput(index: number) {
     goToLastIndex(index)
 }
 
+function setTimeOut(delay: number) {
+    setTimeout(() => {
+        updateIsSelecting(false)
+    }, delay)
+}
+
+function updateIsSelecting(value: boolean) {
+    isSelecting.value = value
+}
+
 watch(actualImageOnCarrousel, () => {
     inputsStore.updateActualIndex(actualImageOnCarrousel.value)
 })
 
 watch(tab, () => {
     inputsStore.updateTab(tab.value)
+})
+
+watch(inputs, () => {
+    const DELAY_IN_SECONDS = 500
+    if (!isSelecting.value) {
+        updateIsSelecting(true)
+        setTimeOut(DELAY_IN_SECONDS)
+    }
 })
 
 </script>
