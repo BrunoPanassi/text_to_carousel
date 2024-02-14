@@ -111,27 +111,52 @@ function onClickOnCarouselButton(props: any) {
 }
 
 function tryToViewCarouselOnImageEdit() {
-    messageDialog.value = "Finalize a edição da imagem!"
+    showMessageDialog("Finalize a edição da imagem!")
+}
+
+function showMessageDialog(text: string) {
+    messageDialog.value = text
     messageDialogClick.value = true;
 }
 
-async function download() {
+function imagesToZip() {
     let zip = new JSZip()
     zip.folder("images")
     let imagesFolder = zip.folder("images")
     imagesToDownload.value.forEach((image) => {
         imagesFolder?.file(image.title, image.image, {base64: true, binary: true})
     })
-
-    const date = new Date();
-    const time = date.toLocaleTimeString().split(":").join("_")
-
-    downloadLoading.value = true;
-    await zip.generateAsync({type:"blob"}).then(function(content) {
-        fileSaver.saveAs(content, `carofy_${date.toLocaleDateString()}_${time}.zip`);
-    });
-    downloadLoading.value = false;
+    return zip
 }
+
+function createFileName() {
+    let date = new Date();
+    const time = date.toLocaleTimeString().split(":").join("_")
+    const dateFormatted = date.toLocaleDateString().replaceAll("/", "_")
+    return `carofy_${dateFormatted}_${time}.zip`
+}
+
+async function tryToDownload(fileName: string, zip: JSZip) {
+    try {
+        downloadLoading.value = true;
+        await zip.generateAsync({type:"blob"}).then(function(content) {
+            fileSaver.saveAs(content, fileName);
+        });
+    } catch (error) {
+        showMessageDialog("Erro ao fazer download da imagem");
+    } finally {
+        downloadLoading.value = false;
+        showMessageDialog(`Download feito! Arquivo gerado: ${fileName}`);
+    }
+}
+
+async function download() {
+    let zip = imagesToZip()
+    const fileName = createFileName()
+    tryToDownload(fileName, zip)
+}
+
+
 
 function addInputOnEnter() {
     addInput();
