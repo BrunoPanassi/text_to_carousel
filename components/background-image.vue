@@ -1,5 +1,6 @@
 <template>
     <v-file-input accept="image/*" @change="previewImage" id="my-file" chips show-size/>
+    <v-btn class="mt-3 ml-5" :color="Colors.OXFORD_BLUE" @click="remove">{{ removeText }}</v-btn>
     <simpleDialog :dialog-clicked="confirmDialog" @on-confirm="onConfirm" />
 </template>
 
@@ -8,6 +9,7 @@ import { useInputsStore } from "#imports";
 import simpleDialog from "@/components/simple-dialog.vue"
 import { DialogProps } from '~/enums/dialog-prop';
 import { getCanvasImage } from "ultimate-text-to-image";
+import { Colors } from "@/enums/colors"
 
 const props = defineProps({
     action: {Type: String, required: false, default: ""}
@@ -19,7 +21,9 @@ const emit = defineEmits(["onClose", "onCleanAction"])
 
 let lastBackgroundImage = ref();
 
-let wasApplied = ref(false)
+let removeText = "Remover"
+
+let wasAppliedOrRemoved = ref(false)
 let preview = ref();
 let image = ref();
 
@@ -65,19 +69,23 @@ function closeConfirmDialog() {
 }
 
 function onApply() {
-    wasApplied.value = true
+    wasAppliedOrRemoved.value = true
     emit("onClose")
 }
 
 function onApplyForAll() {
-    wasApplied.value = true
+    wasAppliedOrRemoved.value = true
     inputsStore.updateStyleOptionForAll(DialogProps.IMAGES);
     closeConfirmDialog()
     emit("onClose")
 }
 
+function remove() {
+    wasAppliedOrRemoved.value = true
+    inputsStore.updateStyleOption([], DialogProps.IMAGES);
+}
+
 function onClose() {
-    console.log("on-close")
     inputsStore.updateStyleOption(lastBackgroundImage.value, DialogProps.IMAGES);
     emit("onClose")
 }
@@ -99,7 +107,7 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
-    if (!wasApplied.value) onClose()
+    if (!wasAppliedOrRemoved.value) onClose()
 })
 
 watch(action, () => {

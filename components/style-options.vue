@@ -55,7 +55,7 @@ const styleOptionsItens = [
         groupItens: [
             {
                 text: "Imagem de Fundo",
-                prop: DialogProps.BACKGROUND_IMAGE,
+                prop: DialogProps.IMAGES,
             }
         ]
     },

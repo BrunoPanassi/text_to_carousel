@@ -48,7 +48,7 @@
         @on-clean-action="onCleanAction"
     />
     <backgroundImage
-        v-if="prop == DialogProps.BACKGROUND_IMAGE" 
+        v-if="prop == DialogProps.IMAGES" 
         :action="action"
         @on-close="onClose"
         @on-clean-action="onCleanAction"

@@ -70,8 +70,8 @@ let tab = ref();
 
 const textFieldPlaceholder = "Digite o seu texto aqui"
 
-const messageDialogClick = ref(false);
-const messageDialog = ref("");
+let messageDialogClick = ref(false);
+let messageDialog = ref("");
 
 let isSelecting = ref(false);
 

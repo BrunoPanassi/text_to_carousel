@@ -1,12 +1,14 @@
 <template>
     <v-color-picker min-width="150" mode="hexa" v-model="color"></v-color-picker>
     <simpleDialog :dialog-clicked="confirmDialog" @on-confirm="onConfirm" />
+    <dialogMessage :dialog-clicked="messageDialogClick" :message="messageDialog" @on-close="onCloseMessageDialog"/> 
 </template>
 
 <script setup lang="ts">
 import { useInputsStore } from "#imports";
 import simpleDialog from "@/components/simple-dialog.vue"
 import { DialogProps } from '~/enums/dialog-prop';
+import dialogMessage from "~/components/dialog-message.vue"
 
 const props = defineProps({
     action: {Type: String, required: false, default: ""}
@@ -18,8 +20,12 @@ const emit = defineEmits(["onClose", "onCleanAction"])
 
 let color = ref("")
 let lastBackgroundColor = ref("");
+let backgroundImage = ref();
 
 let isSelecting = ref(false)
+
+let messageDialogClick = ref(false);
+let messageDialog = ref("")
 
 const inputsStore = useInputsStore()
 const { tab } = storeToRefs(inputsStore) 
@@ -81,7 +87,20 @@ function setTimeOut(delay: number) {
     }, delay)
 }
 
+function checkIfExistsBackgroundImage() {
+    backgroundImage.value = inputsStore.getActualPropValueOnEdit(DialogProps.IMAGES)
+    if (backgroundImage.value?.length) {
+        messageDialog.value = "Possui imagem de fundo, para alterar, favor removê-la"
+        messageDialogClick.value = true
+    }
+}
+
+function onCloseMessageDialog() {
+    messageDialogClick.value = false
+}
+
 onMounted(() => {
+    checkIfExistsBackgroundImage()
     lastBackgroundColor.value = inputsStore.getActualPropValueOnEdit(DialogProps.BACKGROUND_COLOR).toString()
     color.value = inputsStore.getActualPropValueOnEdit(DialogProps.BACKGROUND_COLOR).toString()
     scrollToTheTop()
