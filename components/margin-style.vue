@@ -20,7 +20,6 @@
 
 <script setup lang="ts">
 import { useInputsStore } from "#imports";
-import simpleDialog from "@/components/simple-dialog.vue"
 import { DialogProps } from '~/enums/dialog-prop';
 
 let minSize = 40

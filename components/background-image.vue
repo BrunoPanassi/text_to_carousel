@@ -7,7 +7,6 @@
 
 <script setup lang="ts">
 import { useInputsStore } from "#imports";
-import simpleDialog from "@/components/simple-dialog.vue"
 import { DialogProps } from '~/enums/dialog-prop';
 import { getCanvasImage } from "ultimate-text-to-image";
 import { Colors } from "@/enums/colors"

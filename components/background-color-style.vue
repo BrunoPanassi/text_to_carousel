@@ -6,9 +6,7 @@
 
 <script setup lang="ts">
 import { useInputsStore } from "#imports";
-import simpleDialog from "@/components/simple-dialog.vue"
 import { DialogProps } from '~/enums/dialog-prop';
-import dialogMessage from "~/components/dialog-message.vue"
 
 const props = defineProps({
     action: {Type: String, required: false, default: ""}

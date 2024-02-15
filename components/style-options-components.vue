@@ -56,15 +56,6 @@
 </template>
 
 <script setup lang="ts">
-import backgroundColorStyle from './background-color-style.vue';
-import fontColorStyle from './font-color-style.vue';
-import fontFamilyStyle from './font-family-style.vue';
-import fontSizeStyle from './font-size-style.vue';
-import horizontalAlignStyle from './horizontal-align-style.vue';
-import verticalAlignStyle from './vertical-align-style.vue';
-import fontStyle from './font-style.vue';
-import marginStyle from './margin-style.vue';
-import backgroundImage from './background-image.vue'
 import { DialogProps } from '~/enums/dialog-prop';
 
 const props = defineProps({

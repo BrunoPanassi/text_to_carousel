@@ -16,7 +16,6 @@
 </template>
 
 <script setup lang="ts">
-import simpleDialog from "@/components/simple-dialog.vue"
 import { Colors } from "@/enums/colors"
 import { useInputsStore } from "#imports";
 import { DialogProps } from '~/enums/dialog-prop';

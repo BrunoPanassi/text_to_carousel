@@ -58,9 +58,7 @@
 <script setup lang="ts">
 import TextToImage from "@/service/textToImage";
 import { Colors } from "@/enums/colors"
-import styleOptions from "~/components/style-options.vue";
 import { useInputsStore } from "@/stores/inputs"
-import dialogMessage from "~/components/dialog-message.vue"
 import JSZip from "jszip"
 import fileSaver from "file-saver"
 

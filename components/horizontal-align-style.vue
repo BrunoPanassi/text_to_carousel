@@ -18,7 +18,6 @@
 <script setup lang="ts">
 import { Colors } from "@/enums/colors"
 import { useInputsStore } from "#imports";
-import simpleDialog from "@/components/simple-dialog.vue"
 import { DialogProps } from '~/enums/dialog-prop';
 
 const alignValues = [

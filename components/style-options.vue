@@ -14,14 +14,14 @@
 
         <v-card-text v-else>
             <v-card-text>
-                <v-row id="style-options" class="mb-2">
-                    <v-col cols="4" class="pa-0 px-1">
+                <v-row id="style-options" class="mb-2 justify-end">
+                    <v-col cols="4" md="2" lg="1" class="pa-0 px-1">
                         <v-btn prepend-icon="mdi-close" variant="text" @click="onChooseAction('onClose')">Fechar</v-btn>
                     </v-col>
-                    <v-col cols="4" class="pa-0 px-1">
+                    <v-col cols="4" md="2" lg="1" class="pa-0 px-1">
                         <v-btn :color="Colors.OXFORD_BLUE_LIGHT" @click="onChooseAction('onApply')">Aplicar</v-btn>
                     </v-col>
-                    <v-col cols="4" class="pa-0 px-1">
+                    <v-col cols="4" md="2" lg="1" class="pa-0 px-1">
                         <v-btn :color="Colors.OXFORD_BLUE" variant="tonal" @click="onChooseAction('onApplyForAll')">p/ Todos</v-btn>
                     </v-col>
                 </v-row>
@@ -39,7 +39,6 @@
 
 <script setup lang="ts">
 import { DialogProps } from "@/enums/dialog-prop"
-import styleOptionsComponents from "./style-options-components.vue";
 import { Colors } from "@/enums/colors"
 
 const emit = defineEmits(["onClick", "onApply"])
